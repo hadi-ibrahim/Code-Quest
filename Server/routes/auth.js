@@ -2,6 +2,9 @@ const router = require("express").Router();
 const db = require("../models");
 const bcrypt = require('bcrypt');
 
+
+const jwt = require("jsonwebtoken");
+
 const saltRounds = 10;
 
 User = db.User;
@@ -44,8 +47,10 @@ router.post('/login', async (req,res) => {
         })
         if (loggedIn != null) {
             bcrypt.compare(pass,loggedIn.password, function (err,result) {
-                if(result == true)
-                    res.send(loggedIn);
+                if(result == true) {
+                    const token = jwt.sign({id:loggedIn.id}, process.env.TOKEN_SECRET)
+                    res.header('auth-token', token).send(token);
+                }
                 else 
                     res.status(401).send("Access denied: invalid credentials");
             })
@@ -58,10 +63,12 @@ router.post('/login', async (req,res) => {
             })
             if (loggedIn != null) {
                 bcrypt.compare(pass,loggedIn.password, function (err,result) {
-                    if(result == true)
-                        res.send(loggedIn);
+                    if(result == true){
+                    const token = jwt.sign({id:loggedIn.id}, process.env.TOKEN_SECRET)
+                    res.header('auth-token', token).send(token); 
+                }
                     else 
-                        res.status(401).send("Access denied: invalid credentials");
+                        res.status(401).send("Access denied: invalid credentials")
                 })
             }
             else {

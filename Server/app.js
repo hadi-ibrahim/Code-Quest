@@ -1,9 +1,12 @@
 const db = require("./models")
 const express = require('express');
+const dotenv = require('dotenv');
 
+dotenv.config();
 const app = express()
 
-const authRoute = require("./routes/auth")
+const authRoute = require("./routes/auth");
+const postsRoute = require("./routes/posts");
 
 // Middleware
 app.use(express.json());
@@ -13,6 +16,7 @@ app.use(express.urlencoded({
 
 // Import routes
 app.use('/api/user', authRoute);
+app.use('/api/posts', postsRoute);
 
 
 
