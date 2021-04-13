@@ -10,7 +10,9 @@ module.exports = (sequelize, dataTypes) => {
     };
     Category.init({
         title: {
-            type: dataTypes.STRING
+            type: dataTypes.STRING,
+            notNull:true,
+            max:128
         }
     }, {
         sequelize,

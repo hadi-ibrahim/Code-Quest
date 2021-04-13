@@ -15,7 +15,13 @@ module.exports = (sequelize, dataTypes) => {
     };
     Quest.init({
         description: {
-            type: dataTypes.STRING
+            type: dataTypes.STRING,
+            max:512,
+            notNull: true,
+        },
+        experience: {
+            type: dataTypes.INTEGER,
+            isNumeric: true
         }
     }, {
         sequelize,
