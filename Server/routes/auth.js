@@ -24,8 +24,34 @@ router.post('/register', async (req,res) => {
     }
 })
 
-router.post('/login', (req,res) => {
-    res.send("Login!");
+router.post('/login', async (req,res) => {
+
+    usernameOrEmail =  req.body.usernameOrEmail;
+
+    try {
+        loggedIn = await User.findOne({
+            where: {
+                email: usernameOrEmail,
+                password: req.body.password
+            }
+        })
+        if (loggedIn != null) 
+            res.send(loggedIn);
+        else {
+            loggedIn = await User.findOne({
+                where: {
+                    username: usernameOrEmail,
+                    password: req.body.password
+                }
+            })
+            if (loggedIn != null) 
+                res.send(loggedIn);
+            else 
+                res.status(401).send("Access denied: username or password are incorrect");
+        }  
+    }catch(err){
+        res.status(400).send("Username or email not specified");        
+    }
 })
 
 module.exports = router;
