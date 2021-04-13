@@ -1,5 +1,8 @@
 const router = require("express").Router();
 const db = require("../models");
+const bcrypt = require('bcrypt');
+
+const saltRounds = 10;
 
 User = db.User;
 
@@ -7,11 +10,15 @@ User = db.User;
 
 router.post('/register', async (req,res) => {
 
+    pass = req.body.password;
+    hashed = await bcrypt.hash(pass,saltRounds)
+    console.log("pass: " + hashed);
+    
     try {
         savedUser = await User.create({
             username: req.body.username,
             email: req.body.email,  
-            password: req.body.password,
+            password: hashed,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             birthday: req.body.birthday
@@ -27,30 +34,42 @@ router.post('/register', async (req,res) => {
 router.post('/login', async (req,res) => {
 
     usernameOrEmail =  req.body.usernameOrEmail;
+    pass = req.body.password;
 
     try {
         loggedIn = await User.findOne({
             where: {
                 email: usernameOrEmail,
-                password: req.body.password
             }
         })
-        if (loggedIn != null) 
-            res.send(loggedIn);
+        if (loggedIn != null) {
+            bcrypt.compare(pass,loggedIn.password, function (err,result) {
+                if(result == true)
+                    res.send(loggedIn);
+                else 
+                    res.status(401).send("Access denied: invalid credentials");
+            })
+        }
         else {
             loggedIn = await User.findOne({
                 where: {
                     username: usernameOrEmail,
-                    password: req.body.password
                 }
             })
-            if (loggedIn != null) 
-                res.send(loggedIn);
-            else 
-                res.status(401).send("Access denied: username or password are incorrect");
+            if (loggedIn != null) {
+                bcrypt.compare(pass,loggedIn.password, function (err,result) {
+                    if(result == true)
+                        res.send(loggedIn);
+                    else 
+                        res.status(401).send("Access denied: invalid credentials");
+                })
+            }
+            else {
+                res.status(400).send("Invalid username or email.")
+            }
         }  
     }catch(err){
-        res.status(400).send("Username or email not specified");        
+        res.status(400).send(err);        
     }
 })
 

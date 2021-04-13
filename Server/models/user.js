@@ -39,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
   
     }
   };
+  
   User.init({
     email: {
       type: DataTypes.STRING,
@@ -51,8 +52,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        allowNull: false,
         min: 8
       }
     },
