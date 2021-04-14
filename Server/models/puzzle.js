@@ -3,26 +3,25 @@ const { Model, DATE } = require('sequelize');
 
 
 module.exports = (sequelize, dataTypes) => {
-    class Category extends Model {
+    class Puzzle extends Model {
         static associate(models){
+
+            Puzzle.belongsTo(models.Quest);
+            
 
         }
     };
-    Category.init({
-        title: {
+    Puzzle.init({
+        prompt: {
             type: dataTypes.STRING,
             notNull:true,
-            max:128
-        },
-        imgPath: {
-            type: dataTypes.STRING,
-            max:256
+            max:512
         }
         
     }, {
         sequelize,
-        modelName: "Category"
+        modelName: "Puzzle"
     })
-    return Category;
+    return Puzzle;
     
 }

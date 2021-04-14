@@ -4,7 +4,8 @@
   "description": "Code Quest API server",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "fill-data": "node fillData.js"
   },
   "author": "",
   "license": "ISC",

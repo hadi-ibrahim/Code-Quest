@@ -1,5 +1,5 @@
 'use strict'
-const { Model, DATE } = require('sequelize');
+const { Model, DATE, QueryTypes } = require('sequelize');
 
 
 module.exports = (sequelize, dataTypes) => {
@@ -11,17 +11,29 @@ module.exports = (sequelize, dataTypes) => {
             })
 
             Quest.belongsTo(models.Category)
+
+            Quest.hasMany(models.Question);
+
         }
     };
     Quest.init({
-        description: {
+        title: {
             type: dataTypes.STRING,
-            max:512,
+            max:128,
             notNull: true,
         },
         experience: {
             type: dataTypes.INTEGER,
-            isNumeric: true
+            isNumeric: true,
+            notNull: true
+        },
+        imgPath: {
+            type: dataTypes.STRING,
+            max:256
+        },
+        trophy: {
+            type: dataTypes.STRING,
+            max:64
         }
     }, {
         sequelize,

@@ -7,6 +7,7 @@ const app = express()
 
 const authRoute = require("./routes/auth");
 const postsRoute = require("./routes/posts");
+const { dirname } = require("path");
 
 // Middleware
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use(express.urlencoded({
 // Import routes
 app.use('/api/user', authRoute);
 app.use('/api/posts', postsRoute);
+app.use('/src', express.static(__dirname + '/src'));
 
 
 

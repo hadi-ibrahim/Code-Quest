@@ -3,26 +3,27 @@ const { Model, DATE } = require('sequelize');
 
 
 module.exports = (sequelize, dataTypes) => {
-    class Category extends Model {
+    class PuzzleOption extends Model {
         static associate(models){
+
+         PuzzleOption.belongsTo(models.Puzzle);
+        
 
         }
     };
-    Category.init({
-        title: {
+ PuzzleOption.init({
+        option: {
             type: dataTypes.STRING,
             notNull:true,
-            max:128
         },
-        imgPath: {
-            type: dataTypes.STRING,
-            max:256
+        isCorrect: {
+            type: dataTypes.BOOLEAN,
+            notNull: true,
         }
-        
     }, {
         sequelize,
-        modelName: "Category"
+        modelName: "PuzzleOption"
     })
-    return Category;
+    return PuzzleOption;
     
 }
