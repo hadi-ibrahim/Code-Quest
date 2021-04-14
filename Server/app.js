@@ -7,6 +7,11 @@ const app = express()
 
 const authRoute = require("./routes/auth");
 const postsRoute = require("./routes/posts");
+const questsRoute = require('./routes/quests');
+const questionsRoute = require('./routes/questions');
+const puzzlesRoute = require('./routes/puzzles');
+
+
 const { dirname } = require("path");
 
 // Middleware
@@ -18,6 +23,11 @@ app.use(express.urlencoded({
 // Import routes
 app.use('/api/user', authRoute);
 app.use('/api/posts', postsRoute);
+app.use('/api/quests', questsRoute);
+app.use('/api/questions', questionsRoute);
+app.use('/api/puzzles', puzzlesRoute);
+
+
 app.use('/src', express.static(__dirname + '/src'));
 
 
