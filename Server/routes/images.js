@@ -9,7 +9,7 @@ const fs = require("fs");
 User = db.User;
 
 const upload = multer({
-    dest: "../src/temp"
+    dest: "./src/temp"
   });
 
 const handleError = (err, res) => {
