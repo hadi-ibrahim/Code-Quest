@@ -12,6 +12,8 @@ const jwt = require("jsonwebtoken");
 const saltRounds = 10;
 
 User = db.User;
+Quest = db.Quest;
+
 completed = db.Completed;
 console.log(completed)
 console.log();
@@ -27,18 +29,26 @@ router.get('/', verify, async (req, res) => {
     }
 })
 
-router.get('/:userId', verify, async (req, res) => {
-    id = req.params.userId;
+router.get('/completed', verify, async (req,res) => {
+    token = req.header('auth-token');
+    const decoded = jwt.verify(token, process.env.TOKEN_SECRET); 
+    const id = decoded.id;
+
     try {
-        await User.findByPk(id, {
-            attributes: ['username', 'firstName', 'lastName', 'birthday', 'email', 'imgPath']
-        })
-            .then((usr) => res.send(usr));
+        results = await db.sequelize.query(
+        'SELECT title, imgPath, trophy FROM quests INNER JOIN completed ON quests.id = completed.questId WHERE completed.UserId = :userid',
+        {
+          replacements: { userid: id },
+          type: QueryTypes.SELECT
+        }
+      );
+      res.send(results);
     } catch (err) {
         res.status(400).send(err);
     }
-
 })
+
+router.get('/stats')
 
 router.post('/register', async (req,res) => {
 
@@ -109,23 +119,34 @@ router.post('/login', async (req,res) => {
     }
 })
 
-router.get('/completed', verify, async (req,res) => {
-    token = req.header('auth-token');
-    const decoded = jwt.verify(token, process.env.TOKEN_SECRET); 
-    const id = decoded.id;
-
+router.get('/:userId', verify, async (req, res) => {
+    id = req.params.userId;
     try {
-        result = await db.sequelize.query(
-        'SELECT * FROM completed WHERE UserId = :userid',
-        {
-          replacements: { userid: id },
-          type: QueryTypes.SELECT
-        }
-      );
-      res.send(result);
+        await User.findByPk(id, {
+            attributes: ['username', 'firstName', 'lastName', 'birthday', 'email', 'imgPath']
+        })
+            .then((usr) => res.send(usr));
     } catch (err) {
         res.status(400).send(err);
     }
+
 })
 
+router.get('/stats/:userId', verify, async (req, res) => {
+    id = req.params.userId;
+    try {
+        results = await db.sequelize.query(
+            'SELECT categories.id, categories.title, SUM(CASE WHEN c.userId = :userid THEN quests.experience ELSE 0 END) as progress , SUM(quests.experience) as total FROM categories INNER JOIN categoriestotal on categoriestotal.id = categories.id INNER JOIN quests ON quests.categoryId = categories.id LEFT JOIN completed as c on c.QuestId = quests.id GROUP BY categoriestotal.id;',
+            {
+              replacements: { userid: id },
+              type: QueryTypes.SELECT
+            }
+          );
+          res.send(results);
+    } catch (err) {
+        res.status(400).send(err);
+        console.log(err)
+    }
+
+})
 module.exports = router;

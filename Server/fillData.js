@@ -1,5 +1,6 @@
 const db = require("./models");
 const bcrypt = require('bcrypt');
+const { use } = require("./routes/user");
 const saltRounds = 10;
 
 Category = db.Category;
@@ -107,6 +108,22 @@ async function fillQuests() {
         trophy: 'silver',
         imgPath: 'http://192.168.0.104:3000/src/images/Quests/cSharp.png'
     })
+
+    await Quest.create({
+        title: "Logistic Regression",
+        experience: 1000,
+        CategoryId: 3,
+        trophy: 'silver',
+        imgPath: 'http://192.168.0.104:3000/src/images/Quests/regression.png'
+    })
+
+    await Quest.create({
+        title: "Ethernet",
+        experience: 500,
+        CategoryId: 4,
+        trophy: 'Bronze',
+        imgPath: 'http://192.168.0.104:3000/src/images/Quests/ethernet.png'
+    })
 } catch (err) {
     console.log(err);
 }
@@ -189,7 +206,12 @@ async function fillPuzzleOptions() {
 async function fillCompleted() {
     try {
     await User.findByPk(2)
-        .then((usr) => usr.setCompletedQuest(7));
+        .then((usr) => {
+            usr.setCompletedQuest(7);
+            usr.setCompletedQuest(5);
+            usr.setCompletedQuest(3);
+            usr.save();
+        });
     } catch ( err) {
         console.log(err);
     }
