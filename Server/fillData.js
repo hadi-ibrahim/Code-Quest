@@ -1,43 +1,54 @@
 const db = require("./models");
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 Category = db.Category;
 Quest = db.Quest;
 Question = db.Question;
 Puzzle = db.Puzzle;
 PuzzleOptions = db.PuzzleOption;
+Completed = db.Completed;
+User = db.User ;
 
+async function fillData() {
+    await fillUsers();
+    await fillCategories();
+    await fillQuests();
+    await fillQuestions(); 
+    await fillPuzzles();
+    await fillPuzzleOptions();
+    await fillCompleted();
+}
 
-// fillCategories();
-// fillQuests();
-// fillQuestions(); 
-// fillPuzzles();
-// fillPuzzleOptions();
-
-function fillCategories() {
-    Category.create({
+async function fillCategories() {
+    try {
+    await Category.create({
         title: "Back-end",
         imgPath: 'http://192.168.0.107:3000/src/images/Categories/backend.png'
     })
 
-    Category.create({
+    await Category.create({
         title: "Front-end",
         imgPath: 'http://192.168.0.107:3000/src/images/Categories/frontend.png'
     })
 
-    Category.create({
+    await Category.create({
         title: "Data Science",
         imgPath: 'http://192.168.0.107:3000/src/images/Categories/dataScience.png'
     })
 
-    Category.create({
+    await Category.create({
         title: "IT",
         imgPath: 'http://192.168.0.107:3000/src/images/Categories/IT.png'
     })
+} catch (err) {
+    console.log(err);
+}
 }
 
-function fillQuests() {
-    
-    Quest.create({
+async function fillQuests() {
+    try {
+    await Quest.create({
         title: "HTML",
         experience: 500,
         CategoryId: 2,
@@ -45,7 +56,7 @@ function fillQuests() {
         imgPath: 'http://192.168.0.107:3000/src/images/Quests/html.png'
     })
 
-    Quest.create({
+    await Quest.create({
         title: "CSS",
         experience: 750,
         CategoryId: 2,
@@ -54,7 +65,7 @@ function fillQuests() {
 
     })
 
-    Quest.create({
+    await Quest.create({
         title: "Javascript",
         experience: 1000,
         CategoryId: 2,
@@ -63,7 +74,7 @@ function fillQuests() {
 
     })
 
-    Quest.create({
+    await Quest.create({
         title: "Angular",
         experience: 1250,
         CategoryId: 2,
@@ -72,7 +83,7 @@ function fillQuests() {
 
     })
 
-    Quest.create({
+    await Quest.create({
         title: "React",
         experience: 1250,
         CategoryId: 2,
@@ -81,7 +92,7 @@ function fillQuests() {
 
     })
 
-    Quest.create({
+    await Quest.create({
         title: "C++",
         experience: 1000,
         CategoryId: 1,
@@ -89,75 +100,138 @@ function fillQuests() {
         imgPath: 'http://192.168.0.107:3000/src/images/Quests/cpp.png'
     })
 
-    Quest.create({
+    await Quest.create({
         title: "C#",
         experience: 1000,
         CategoryId: 1,
         trophy: 'silver',
         imgPath: 'http://192.168.0.107:3000/src/images/Quests/cSharp.png'
     })
+} catch (err) {
+    console.log(err);
+}
     
 }
 
-function fillQuestions() {
-
-    Question.create({
+async function fillQuestions() {
+try {
+    await Question.create({
         prompt: "How can you make a numbered list?",
         solution: "<ol>",
         hint: "<tag here>",
         QuestId: 1
     });
 
-    Question.create({
+    await Question.create({
         prompt: "Write the HTML5 semantic tag for the following legacy code: <div id='header'>",
         solution: "<header>",
         hint: "<tag here>",
         QuestId: 1
     });
+} catch (err) {
+    console.log(err);
+}
 }
 
-function fillPuzzles() {
-    Puzzle.create({
+async function fillPuzzles() {
+    try {
+        await Puzzle.create({
         prompt: "Which of the following tags are table elements?"
     });
+} catch (err) {
+    console.log(err);
+}
 }
 
-function fillPuzzleOptions() {
-
-    PuzzleOptions.create({
+async function fillPuzzleOptions() {
+    try {
+    await PuzzleOptions.create({
         PuzzleId : 1,
         option : '<Thead>',
         isCorrect : false
     });
 
-    PuzzleOptions.create({
+    await PuzzleOptions.create({
         PuzzleId : 1,
         option : '<body>',
         isCorrect : false
     });
 
-    PuzzleOptions.create({
+    await PuzzleOptions.create({
         PuzzleId : 1,
         option : '<table>',
         isCorrect : true
     });
 
-    PuzzleOptions.create({
+    await PuzzleOptions.create({
         PuzzleId : 1,
         option : '<td>',
         isCorrect : true
     });
 
-    PuzzleOptions.create({
+    await PuzzleOptions.create({
         PuzzleId : 1,
         option : '<Tfoot>',
         isCorrect : false
     });
 
-    PuzzleOptions.create({
+    await PuzzleOptions.create({
         PuzzleId : 1,
         option : '<tr>',
         isCorrect : true
     });
+} catch (err) {
+    console.log(err);
+}
 
 }
+
+async function fillCompleted() {
+    try {
+    await User.findByPk(2)
+        .then((usr) => usr.setCompletedQuest(7));
+    } catch ( err) {
+        console.log(err);
+    }
+}
+
+function getMethods(obj) {
+    var result = [];
+    for (var id in obj) {
+      try {
+        if (typeof(obj[id]) == "function") {
+          result.push(id + ": " + obj[id].toString());
+        }
+      } catch (err) {
+        result.push(id + ": inaccessible");
+      }
+    }
+    return result;
+}
+
+async function fillUsers () {
+    try {
+        hashed = await bcrypt.hash("test123",saltRounds)
+        await User.create({
+            username: "Rooronoa" ,
+            email: "rooro@gmail.com",
+            firstName: "Hadi",
+            lastName: "Ibrahim",
+            password: hashed
+
+        })
+
+        await User.create({
+            username: "Raziel" ,
+            email: "raz@gmail.com",
+            firstName: "Mouhammed",
+            lastName: "Soueidan",
+            password: hashed
+
+        })
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+module.exports = fillData;

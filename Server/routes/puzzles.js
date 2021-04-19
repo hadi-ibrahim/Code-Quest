@@ -8,16 +8,23 @@ router.use('/options' , puzzleOptionsRoute);
 Puzzles = db.Puzzle;
 
 
-router.get("/", verify, (req,res) => {
-    Puzzles.findAll()
+router.get("/", verify, async (req,res) => {
+    try {
+    await Puzzles.findAll()
         .then((Puzzles) => res.send(Puzzles));
+    }catch(err) {
+        res.status(400).send(err);
+    }
 })
 
-router.get("/:PuzzleId", verify, (req,res) => {
+router.get("/:PuzzleId", verify, async (req,res) => {
     id = req.params.PuzzleId;
-
-    Puzzles.findByPk(id)
+    try {
+    await Puzzles.findByPk(id)
         .then((Puzzle) => res.send(Puzzle));
+    } catch(err) {
+        res.status(400).send(err);
+    }
 })
 
 module.exports = router;

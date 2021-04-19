@@ -7,7 +7,7 @@ module.exports = (sequelize, dataTypes) => {
         static associate(models){
             // Users that completed the quest
             Quest.belongsToMany(models.User,{
-                through: "completed"
+                through: "completed",
             })
 
             Quest.belongsTo(models.Category)

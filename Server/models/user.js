@@ -36,6 +36,12 @@ module.exports = (sequelize, DataTypes) => {
           as: "user2",
           foreignKey: "userID_2"
       })
+
+      // -------- completed quests
+      User.belongsToMany(Quest, {
+        through: "completed",
+        as:"completedQuest"
+      })
   
     }
   };

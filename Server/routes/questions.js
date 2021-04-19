@@ -5,16 +5,24 @@ const verify = require("./verifyToken")
 Questions = db.Question;
 
 
-router.get("/", verify, (req,res) => {
-    Questions.findAll()
+router.get("/", verify, async (req,res) => {
+
+    try {
+    await Questions.findAll()
         .then((Questions) => res.send(Questions));
+    } catch(err) {
+        res.status(400).send(err);
+    }
 })
 
-router.get("/:QuestionId", verify, (req,res) => {
+router.get("/:QuestionId", verify, async (req,res) => {
     id = req.params.QuestionId;
-
-    Questions.findByPk(id)
+    try {
+    await Questions.findByPk(id)
         .then((Question) => res.send(Question));
+    } catch(err) {
+        res.status(400).send(err);
+    }
 })
 
 module.exports = router;

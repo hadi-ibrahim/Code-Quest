@@ -1,18 +1,16 @@
 const db = require("./models")
 const express = require('express');
 const dotenv = require('dotenv');
+const fillData = require("./fillData");
 
 dotenv.config();
 const app = express()
 
-const authRoute = require("./routes/auth");
-const postsRoute = require("./routes/posts");
+const userRoute = require("./routes/user");
 const questsRoute = require('./routes/quests');
 const questionsRoute = require('./routes/questions');
 const puzzlesRoute = require('./routes/puzzles');
 
-
-const { dirname } = require("path");
 
 // Middleware
 app.use(express.json());
@@ -21,13 +19,12 @@ app.use(express.urlencoded({
   }));
 
 // Import routes
-app.use('/api/user', authRoute);
-app.use('/api/posts', postsRoute);
+app.use('/api/user', userRoute);
 app.use('/api/quests', questsRoute);
 app.use('/api/questions', questionsRoute);
 app.use('/api/puzzles', puzzlesRoute);
 
-
+// static route for images
 app.use('/src', express.static(__dirname + '/src'));
 
 
@@ -35,7 +32,12 @@ app.use('/src', express.static(__dirname + '/src'));
 app.listen(3000, () => console.log("Server up and listening..."))
 
 async function main() {
-    await db.sequelize.sync({alter:true});
+  try {
+    await db.sequelize.sync({alter:true, force:true});
+    await fillData();
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 main();

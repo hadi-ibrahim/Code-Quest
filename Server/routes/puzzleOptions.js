@@ -4,18 +4,25 @@ const verify = require("./verifyToken")
 
 PuzzleOptions = db.PuzzleOption;
 
-router.get("/", verify, (req,res) => {
-    PuzzleOptions.findAll()
+router.get("/", verify, async (req,res) => {
+    try {
+    await PuzzleOptions.findAll()
         .then((ops) => {
              res.send(ops)
         });
+    } catch (err) {
+        res.status(400).send(err);
+    }
 })
 
-router.get("/:PuzzleOptionId", verify, (req,res) => {
+router.get("/:PuzzleOptionId", verify, async (req,res) => {
     id = req.params.PuzzleOptionId;
-
-    PuzzleOptions.findByPk(id)
+    try {
+    await PuzzleOptions.findByPk(id)
         .then((ops) => res.send(ops));
+    } catch (err) {
+        res.status(400).send(err);
+    }
 })
 
 module.exports = router;
