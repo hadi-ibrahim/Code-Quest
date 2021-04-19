@@ -16,6 +16,29 @@ completed = db.Completed;
 console.log(completed)
 console.log();
 
+router.get('/', verify, async (req, res) => {
+    try {
+        await User.findAll({
+            attributes: ['username', 'firstName', 'lastName', 'birthday', 'email', 'imgPath']
+        })
+            .then((users) => res.send(users));
+    } catch (err) {
+        res.status(400).send(err);
+    }
+})
+
+router.get('/:userId', verify, async (req, res) => {
+    id = req.params.userId;
+    try {
+        await User.findByPk(id, {
+            attributes: ['username', 'firstName', 'lastName', 'birthday', 'email', 'imgPath']
+        })
+            .then((usr) => res.send(usr));
+    } catch (err) {
+        res.status(400).send(err);
+    }
+
+})
 
 router.post('/register', async (req,res) => {
 

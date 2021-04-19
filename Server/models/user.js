@@ -83,7 +83,11 @@ module.exports = (sequelize, DataTypes) => {
     birthday: {
       type: DataTypes.DATE,
       isDate: true
-    }
+    },
+    imgPath:{
+      type: DataTypes.STRING,
+      max:256
+    } 
 
   }, {
     sequelize,

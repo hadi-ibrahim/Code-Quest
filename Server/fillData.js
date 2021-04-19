@@ -24,22 +24,22 @@ async function fillCategories() {
     try {
     await Category.create({
         title: "Back-end",
-        imgPath: 'http://192.168.0.107:3000/src/images/Categories/backend.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Categories/backend.png'
     })
 
     await Category.create({
         title: "Front-end",
-        imgPath: 'http://192.168.0.107:3000/src/images/Categories/frontend.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Categories/frontend.png'
     })
 
     await Category.create({
         title: "Data Science",
-        imgPath: 'http://192.168.0.107:3000/src/images/Categories/dataScience.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Categories/dataScience.png'
     })
 
     await Category.create({
         title: "IT",
-        imgPath: 'http://192.168.0.107:3000/src/images/Categories/IT.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Categories/IT.png'
     })
 } catch (err) {
     console.log(err);
@@ -53,7 +53,7 @@ async function fillQuests() {
         experience: 500,
         CategoryId: 2,
         trophy: 'bronze',
-        imgPath: 'http://192.168.0.107:3000/src/images/Quests/html.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Quests/html.png'
     })
 
     await Quest.create({
@@ -61,7 +61,7 @@ async function fillQuests() {
         experience: 750,
         CategoryId: 2,
         trophy: 'silver',
-        imgPath: 'http://192.168.0.107:3000/src/images/Quests/css.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Quests/css.png'
 
     })
 
@@ -70,7 +70,7 @@ async function fillQuests() {
         experience: 1000,
         CategoryId: 2,
         trophy: 'silver',
-        imgPath: 'http://192.168.0.107:3000/src/images/Quests/js.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Quests/js.png'
 
     })
 
@@ -79,7 +79,7 @@ async function fillQuests() {
         experience: 1250,
         CategoryId: 2,
         trophy: 'gold',
-        imgPath: 'http://192.168.0.107:3000/src/images/Quests/angular.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Quests/angular.png'
 
     })
 
@@ -88,7 +88,7 @@ async function fillQuests() {
         experience: 1250,
         CategoryId: 2,
         trophy: 'gold',
-        imgPath: 'http://192.168.0.107:3000/src/images/Quests/react.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Quests/react.png'
 
     })
 
@@ -97,7 +97,7 @@ async function fillQuests() {
         experience: 1000,
         CategoryId: 1,
         trophy: 'silver',
-        imgPath: 'http://192.168.0.107:3000/src/images/Quests/cpp.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Quests/cpp.png'
     })
 
     await Quest.create({
@@ -105,7 +105,7 @@ async function fillQuests() {
         experience: 1000,
         CategoryId: 1,
         trophy: 'silver',
-        imgPath: 'http://192.168.0.107:3000/src/images/Quests/cSharp.png'
+        imgPath: 'http://192.168.0.104:3000/src/images/Quests/cSharp.png'
     })
 } catch (err) {
     console.log(err);
@@ -217,7 +217,9 @@ async function fillUsers () {
             email: "rooro@gmail.com",
             firstName: "Hadi",
             lastName: "Ibrahim",
-            password: hashed
+            password: hashed,
+            imgPath: 'http://192.168.0.104:3000/src/images/Categories/backend.png'
+
 
         })
 
@@ -226,7 +228,8 @@ async function fillUsers () {
             email: "raz@gmail.com",
             firstName: "Mouhammed",
             lastName: "Soueidan",
-            password: hashed
+            password: hashed,
+            imgPath: 'http://192.168.0.104:3000/src/images/Categories/backend.png'
 
         })
     } catch (err) {
