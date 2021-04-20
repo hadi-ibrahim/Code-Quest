@@ -5,8 +5,7 @@ const verify = require("./verifyToken")
 Questions = db.Question;
 
 
-router.get("/", verify, async (req,res) => {
-
+router.get("/", verify, async (req,res) => {    
     try {
     await Questions.findAll()
         .then((Questions) => res.send(Questions));

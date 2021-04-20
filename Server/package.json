@@ -4,7 +4,7 @@
   "description": "Code Quest API server",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js --unhandled-rejection=strict",
+    "start": "nodemon app.js",
     "fill-data": "node fillData.js"
   },
   "author": "",

@@ -152,9 +152,12 @@ try {
 
 async function fillPuzzles() {
     try {
-        await Puzzle.create({
-        prompt: "Which of the following tags are table elements?"
+        puzzle = await Puzzle.create({
+        prompt: "Which of the following tags are table elements?",
+        QuestId:2
     });
+        Puzzle.findByPk(1)
+        .then(puz => puz.setQuest(1))
 } catch (err) {
     console.log(err);
 }
