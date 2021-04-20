@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const verify = require("./verifyToken")
 const { QueryTypes } = require('sequelize');
 const sequelize = require('sequelize');
+const fs = require("fs");
 
 
 
@@ -53,7 +54,6 @@ router.get('/stats')
 router.post('/register', async (req,res) => {
 
     pass = req.body.password;
-    console.log("pass: " + hashed);
     
     try {
         hashed = await bcrypt.hash(pass,saltRounds)
@@ -65,10 +65,16 @@ router.post('/register', async (req,res) => {
             lastName: req.body.lastName,
             birthday: req.body.birthday
         }).then ((saved) => {
+            saved.imgPath = "http://" + process.env.SERVER_IP +"/src/images/Users/" + saved.id +".png";
+            saved.save();
+            fs.copyFile('./src/temp/default.png', './src/images/Users/' + saved.id + ".png", (err) => {
+                if (err) throw err;
+              });
             res.send(saved);
         })
         
-    } catch(err) {        
+    } catch(err) {
+        console.log(err);
         res.status(400).send(err);
     }
 })

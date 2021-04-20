@@ -240,7 +240,7 @@ async function fillUsers () {
             firstName: "Hadi",
             lastName: "Ibrahim",
             password: hashed,
-            imgPath: 'http://' + process.env.SERVER_IP + ':3000/src/images/Categories/backend.png'
+            imgPath: 'http://' + process.env.SERVER_IP + ':3000/src/images/Users/1.png'
 
 
         })
@@ -251,7 +251,7 @@ async function fillUsers () {
             firstName: "Mouhammed",
             lastName: "Soueidan",
             password: hashed,
-            imgPath: 'http://' + process.env.SERVER_IP + ':3000/src/images/Categories/backend.png'
+            imgPath: 'http://' + process.env.SERVER_IP + ':3000/src/images/Users/2.png'
 
         })
     } catch (err) {
