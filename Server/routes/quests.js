@@ -56,10 +56,9 @@ router.post("/solve/:questId", verify, (req,res) => {
                         })
                         .then((options) => {
                             allPuzzles.push ({
-                                Puzzle: {
-                                    prompt:puzzle,
-                                    Options: options
-                                }
+                                prompt:puzzle.prompt,
+                                id:puzzle.id,
+                                Options: options
                             })
 
 
@@ -122,10 +121,9 @@ router.get("/answers", verify, (req,res) => {
                             })
                             .then((options) => {
                                 allPuzzles.push ({
-                                    Puzzle: {
-                                        prompt:puzzle,
-                                        Options: options
-                                    }
+                                    prompt:puzzle.prompt,
+                                    id:puzzle.id,
+                                    Options: options
                                 })
                                 allQuests.push({'Quest': quest,
                                 'Questions': allQuestions,
@@ -184,10 +182,9 @@ router.get("/answers/:questId", verify, (req,res) => {
                         })
                         .then((options) => {
                             allPuzzles.push ({
-                                Puzzle: {
-                                    prompt:puzzle,
-                                    Options: options
-                                }
+                                prompt:puzzle.prompt,
+                                id:puzzle.id,
+                                Options: options
                             })
                             res.send({'Quest': quest,
                             'Questions': allQuestions,
@@ -219,19 +216,19 @@ router.get("/:questId", verify, async (req,res) => {
 function areAnswersCorrect(ansPuzzles, puzzles, ansQuestions, questions) {
     ans = true
     ansPuzzles.forEach((ansPuz) => {
-        const puz = puzzles.find(element => element.Puzzle.prompt.id == ansPuz.Puzzle.prompt.id)
+        const puz = puzzles.find(element => element.id == ansPuz.id)
         if (!puz)
             ans = false;
 
         correctOptions = []
-        ansPuz.Puzzle.Options.forEach((ansOption) => {
+        ansPuz.Options.forEach((ansOption) => {
             if (ansOption.isCorrect)
                 correctOptions.push(ansOption.id);
         })
 
         selectedOptions = []; 
 
-        puz.Puzzle.Options.forEach((option) => {
+        puz.Options.forEach((option) => {
             selectedOptions.push(option.id);
         })
 
