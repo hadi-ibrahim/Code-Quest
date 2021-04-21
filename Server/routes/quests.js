@@ -243,7 +243,6 @@ function areAnswersCorrect(ansPuzzles, puzzles, ansQuestions, questions) {
             ans = false;
         });
         
-
     })
     ansQuestions.forEach((ansQuestion) => {
         const ques = questions.find(question => question.id == ansQuestion.id);

@@ -52,8 +52,6 @@ router.get('/completed', verify, async (req,res) => {
     }
 })
 
-router.get('/stats')
-
 router.post('/register', async (req,res) => {
 
     pass = req.body.password;
@@ -208,4 +206,36 @@ router.put(
   }
 }
 );
+
+router.put("/updateProfile", verify, async (req,res) => {
+    
+    try {
+        token = req.header('auth-token');
+        const decoded = jwt.verify(token, process.env.TOKEN_SECRET); 
+        const id = decoded.id;
+
+        username = req.body.username;
+        firstName = req.body.firstName;
+        lastName = req.body.lastName;
+        email = req.body.email;
+
+        password = await bcrypt.hash(req.body.password,saltRounds);
+
+        await User.findByPk(id)
+        .then((usr) => {
+            usr.email = email;
+            usr.password = password;
+            usr.username = username;
+            usr.firstName = firstName;
+            usr.lastName = lastName;
+            usr.save();
+            res.send("User updated successully!")
+        })
+    } catch(err) {
+        res.status(400).send(err);
+        console.log(err);
+    }
+})
+
+
 module.exports = router;
