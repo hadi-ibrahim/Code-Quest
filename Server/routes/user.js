@@ -169,7 +169,7 @@ const handleError = (err, res) => {
     };
 
 router.put(
-  "/changeProfile",
+  "/changeProfilePicture",
   upload.single("image" /* name attribute of <file> element in your form */),
   verify,
   async (req, res) => {
@@ -179,27 +179,51 @@ router.put(
     const id = decoded.id;
 
     const tempPath = req.file.path;
-    const targetPath = path.join(__dirname, "../src/images/Users/" + id + ".png");
+    const type = req.file.mimetype.split("/").pop();
+    let targetPath;
 
-    if (path.extname(req.file.originalname).toLowerCase() === ".png") {
-      fs.rename(tempPath, targetPath, err => {
-        if (err) return handleError(err, res);
-
-        res
-          .status(200)
-          .contentType("text/plain")
-          .send("File uploaded!");
-      });
-    } else {
-      fs.unlink(tempPath, err => {
-        if (err) return handleError(err, res);
-
-        res
-          .status(403)
-          .contentType("text/plain")
-          .send("Only .png files are allowed!");
-      });
+    if(type == "png")
+        targetPath = path.join(__dirname, "../src/images/Users/" + id + ".png");
+    else if(type=="jpeg")
+        targetPath = path.join(__dirname, "../src/images/Users/" + id + ".jpeg");
+    else if (type =="jpg")
+        targetPath = path.join(__dirname, "../src/images/Users/" + id + ".jpg");
+    else {
+        fs.unlink(tempPath, err => {
+            if (err) return handleError(err, res);
+    
+            res
+            .status(403)
+            .contentType("text/plain")
+            .send("Only .png, .jpg, .jpeg files are allowed!");
+        });
     }
+
+    fs.rename(tempPath, targetPath, err => {
+    if (err) return handleError(err, res);
+
+    });
+
+    await User.findByPk(id)
+    .then( usr => {
+        const pathWithExtension = usr.imgPath.split(".");
+        let success = true;
+        console.log(pathWithExtension[pathWithExtension.length-1])
+        if(pathWithExtension[pathWithExtension.length-1] != type) {
+            fs.unlink("./src/images/Users/" + id + "."+ pathWithExtension[pathWithExtension.length-1], err => {
+                if (err) 
+                success = false;
+            });
+
+            pathWithExtension.pop();
+            usr.imgPath = pathWithExtension.join(".") + "." + type;
+            usr.save();
+        }
+        if(success)
+        res.send("File uploaded!");
+        else return handleError("Error occured", res);
+    })
+    
   }catch(err) {
       res.status(400).send(err);
       console.log(err)
