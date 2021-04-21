@@ -14,7 +14,6 @@ const userRoute = require("./routes/user");
 const questsRoute = require('./routes/quests');
 const questionsRoute = require('./routes/questions');
 const puzzlesRoute = require('./routes/puzzles');
-const imagesRoute = require('./routes/images')
 
 
 
@@ -34,7 +33,6 @@ app.use('/api/puzzles', puzzlesRoute);
 
 // static route for images
 app.use('/src', express.static(__dirname + '/src'));
-app.use('/api/images', imagesRoute);
 
 
 
