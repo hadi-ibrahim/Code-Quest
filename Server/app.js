@@ -2,9 +2,13 @@ const db = require("./models")
 const express = require('express');
 const dotenv = require('dotenv');
 const fillData = require("./fillData");
+const expressOasGenerator = require('express-oas-generator');
+
 
 dotenv.config();
 const app = express()
+
+expressOasGenerator.init(app, {});
 
 const userRoute = require("./routes/user");
 const questsRoute = require('./routes/quests');
@@ -13,11 +17,14 @@ const puzzlesRoute = require('./routes/puzzles');
 const imagesRoute = require('./routes/images')
 
 
+
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({
     extended: true
   }));
+
+
 
 // Import routes
 app.use('/api/user', userRoute);
