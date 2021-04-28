@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">CodeQuestApp</string>
+    <string name="app_name">Code Quest</string>
+<!--    <string name="title_activity_main">Code Quest</string>-->
+    <string name="title_quests">Quests</string>
+    <string name="title_achievements">Achievements</string>
+    <string name="title_profile">Profile</string>
 </resources>
