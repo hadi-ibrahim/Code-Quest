@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/code_quest_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CodeQuestApp">
-        <activity android:name=".RegistrationActivity">
+        <activity android:name=".ui.registration.RegistrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
