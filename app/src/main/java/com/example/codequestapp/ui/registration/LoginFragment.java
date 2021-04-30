@@ -17,7 +17,6 @@ public class LoginFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO: Rename and change types and number of parameters
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }

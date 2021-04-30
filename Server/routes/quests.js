@@ -8,11 +8,12 @@ Questions = db.Question;
 Puzzles = db.Puzzles;
 PuzzleOptions = db.PuzzleOptions;
 User = db.User;
+Category = db.Category;
 
 
-router.get("/", verify, async (req,res) => {
+router.get("/", async (req,res) => {
     try {
-    await Quests.findAll()
+    await Quests.findAll({include : Category})
         .then((quests) => res.send(quests));
     } catch(err) {
         res.status(400).send(err);
@@ -24,7 +25,11 @@ router.post("/solve/:questId", verify, (req,res) => {
         token = req.header('auth-token');
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET); 
         const userId = decoded.id;
-        Quests.findByPk(id,{attributes: {exclude:['createdAt', 'updatedAt', 'CategoryId']}})
+        Quests.findByPk(id,
+            {
+                attributes: {exclude:['createdAt', 'updatedAt', 'CategoryId']},
+                include: Category
+            })
         .then((quest) => {
             allQuestions = [];
             allPuzzles = [];
@@ -97,7 +102,7 @@ router.get("/answers", verify, (req,res) => {
                     where: {
                         QuestId : quest.id
                     },
-                    attributes : {exclude: ["createdAt", "updatedAt","QuestId"]}
+                    attributes : {exclude: ["createdAt", "updatedAt","QuestId"]},
                 })
                 .then((questions) => {
                     questions.forEach(question => allQuestions.push(question));
@@ -206,7 +211,7 @@ router.get("/answers/:questId", verify, (req,res) => {
 router.get("/:questId", verify, async (req,res) => {
     id = req.params.questId;
     try {
-    await Quests.findByPk(id)
+    await Quests.findByPk(id, {include : Category})
         .then((quest) => res.send(quest));
     } catch(err) {
         res.status(400).send(err);

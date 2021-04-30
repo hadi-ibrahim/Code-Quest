@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.codequestapp">
+    <uses-permission android:name="android.permission.INTERNET"/>
+
 
     <application
         android:allowBackup="true"
@@ -8,7 +10,9 @@
         android:label="Code Quest"
         android:roundIcon="@mipmap/code_quest_icon_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.CodeQuestApp">
+
         <activity android:name=".ui.registration.RegistrationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -25,6 +25,9 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView navView;
+    private QuestsFragment questsFragment = new QuestsFragment();
+    private ProfileFragment profileFragment = new ProfileFragment();
+    private AchievementsFragment achievementsFragment = new AchievementsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,18 +49,15 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_quests:
                         setTitle("Quests");
-                        fragment = new QuestsFragment();
-                        replaceFragment(fragment);
+                        replaceFragment(questsFragment);
                         break;
                     case R.id.navigation_profile:
                         setTitle("Profile");
-                        fragment = new ProfileFragment();
-                        replaceFragment(fragment);
+                        replaceFragment(profileFragment);
                         break;
                     case R.id.navigation_achievements:
                         setTitle("Achievements");
-                        fragment = new AchievementsFragment();
-                        replaceFragment(fragment);
+                        replaceFragment(achievementsFragment);
                         break;
                 }
                 return true;
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void replaceFragment(Fragment fragment) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.nav_host_fragment, fragment);
         transaction.commit();
     }
