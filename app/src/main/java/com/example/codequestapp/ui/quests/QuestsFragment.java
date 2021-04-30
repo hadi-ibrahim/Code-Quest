@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,9 +22,13 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.codequestapp.R;
+import com.example.codequestapp.models.Quest;
 import com.example.codequestapp.ui.registration.SignupFragment;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
+
+import java.util.ArrayList;
 
 public class QuestsFragment extends Fragment {
 
@@ -38,21 +44,24 @@ public class QuestsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_quests, container, false);
-        final TextView textView = root.findViewById(R.id.text_quest);
-
+        RecyclerView questCards = root.findViewById(R.id.questCards);
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url ="http://192.168.0.106:3000/api/quests";
+        String url ="http://192.168.43.166:3000/api/quests";
 
         JsonArrayRequest stringRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                Quest [] quests = new Gson().fromJson(response.toString(), Quest[].class);
+                QuestCardAdapter adapter = new QuestCardAdapter(quests, getContext());
+                questCards.setAdapter(adapter);
+                questCards.setLayoutManager(new LinearLayoutManager(getContext()));
 
-                textView.setText("Response: " + response.toString());
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                textView.setText("Error : " + error.getMessage());
+
             }
         });
         queue.add(stringRequest);

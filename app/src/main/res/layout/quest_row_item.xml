@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="50dp"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginVertical="10dp"
+
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <TextView
+            android:id="@+id/categoryBanner"
+            android:layout_width="wrap_content"
+            android:text="  "
+            android:layout_height="fill_parent"
+            android:background="#ff0000"
+            />
+
+        <TextView
+            android:id="@+id/questTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="100"
+            android:gravity="center"
+            android:text="Quest title " />
+
+        <ImageView
+            android:id="@+id/trophyImage"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/bronze" />
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
