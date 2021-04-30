@@ -81,13 +81,14 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
 
-    usernameOrEmail = req.body.usernameOrEmail;
+    usrname = req.body.username;
     pass = req.body.password;
 
     try {
+
         loggedIn = await User.findOne({
             where: {
-                email: usernameOrEmail,
+                username: usrname,
             }
         })
         if (loggedIn != null) {
@@ -97,30 +98,14 @@ router.post('/login', async (req, res) => {
                     res.header('auth-token', token).send(token);
                 }
                 else
-                    res.status(401).send("Access denied: invalid credentials");
+                    res.status(401).send("Access denied: invalid credentials")
             })
         }
         else {
-            loggedIn = await User.findOne({
-                where: {
-                    username: usernameOrEmail,
-                }
-            })
-            if (loggedIn != null) {
-                bcrypt.compare(pass, loggedIn.password, function (err, result) {
-                    if (result == true) {
-                        const token = jwt.sign({ id: loggedIn.id }, process.env.TOKEN_SECRET)
-                        res.header('auth-token', token).send(token);
-                    }
-                    else
-                        res.status(401).send("Access denied: invalid credentials")
-                })
-            }
-            else {
-                res.status(400).send("Invalid username or email.")
-            }
+            res.status(400).send("Invalid username or email.")
         }
-    } catch (err) {
+    }
+    catch (err) {
         res.status(400).send(err);
     }
 })
