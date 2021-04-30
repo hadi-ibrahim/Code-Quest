@@ -14,6 +14,7 @@ const userRoute = require("./routes/user");
 const questsRoute = require('./routes/quests');
 const questionsRoute = require('./routes/questions');
 const puzzlesRoute = require('./routes/puzzles');
+const categoryRoute = require('./routes/categories');
 
 
 
@@ -23,13 +24,12 @@ app.use(express.urlencoded({
     extended: true
   }));
 
-
-
 // Import routes
 app.use('/api/user', userRoute);
 app.use('/api/quests', questsRoute);
 app.use('/api/questions', questionsRoute);
 app.use('/api/puzzles', puzzlesRoute);
+app.use('/api/categories', categoryRoute)
 
 // static route for images
 app.use('/src', express.static(__dirname + '/src'));

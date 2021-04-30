@@ -8,9 +8,6 @@ const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
 
-
-
-
 const jwt = require("jsonwebtoken");
 
 const saltRounds = 10;
