@@ -23,9 +23,14 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.codequestapp.R;
 import com.example.codequestapp.models.Quest;
+import com.example.codequestapp.requests.QuestsGetRequest;
+import com.example.codequestapp.requests.RequestQueueSingleton;
 import com.example.codequestapp.requests.RequestUtil;
+import com.example.codequestapp.responses.ErrorResponseListener;
+import com.example.codequestapp.responses.QuestResponseListener;
 import com.example.codequestapp.ui.registration.SignupFragment;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 
 import org.json.JSONArray;
 
@@ -46,26 +51,11 @@ public class QuestsFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_quests, container, false);
         RecyclerView questCards = root.findViewById(R.id.questCards);
-        RequestQueue queue = Volley.newRequestQueue(getContext());
+        RequestQueue queue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
         String url = RequestUtil.BASE_URL + "api/quests";
 
-        JsonArrayRequest stringRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                Quest [] quests = new Gson().fromJson(response.toString(), Quest[].class);
-                QuestCardAdapter adapter = new QuestCardAdapter(quests, getContext());
-                questCards.setAdapter(adapter);
-                questCards.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-        queue.add(stringRequest);
+        QuestsGetRequest jsonRequest = new QuestsGetRequest(url, getContext(), questCards);
+        queue.add(jsonRequest);
         return root;
     }
 }
