@@ -91,4 +91,9 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
+    public void toggleColorMode(MenuItem item) {
+        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
 }

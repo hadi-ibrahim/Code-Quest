@@ -5,6 +5,7 @@
         android:id="@+id/night"
         android:icon="@drawable/ic_dark_mode"
         android:title="Dark mode"
+        android:onClick="toggleColorMode"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/customize"
