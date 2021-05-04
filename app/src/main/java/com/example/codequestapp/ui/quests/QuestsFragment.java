@@ -23,6 +23,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.codequestapp.R;
 import com.example.codequestapp.models.Quest;
+import com.example.codequestapp.requests.RequestUtil;
 import com.example.codequestapp.ui.registration.SignupFragment;
 import com.google.gson.Gson;
 
@@ -46,7 +47,7 @@ public class QuestsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_quests, container, false);
         RecyclerView questCards = root.findViewById(R.id.questCards);
         RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url ="http://192.168.43.166:3000/api/quests";
+        String url = RequestUtil.BASE_URL + "api/quests";
 
         JsonArrayRequest stringRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
             @Override

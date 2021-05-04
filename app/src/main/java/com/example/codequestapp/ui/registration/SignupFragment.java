@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.codequestapp.R;
@@ -26,6 +27,7 @@ public class SignupFragment extends Fragment {
     private TextInputEditText email;
     private TextInputEditText username;
 
+    private TextInputLayout birthdayContainer;
     private TextInputLayout passwordContainer;
     private TextInputEditText password;
     private TextInputLayout verifyPasswordContainer;
@@ -76,6 +78,7 @@ public class SignupFragment extends Fragment {
         username = view.findViewById(R.id.usernameFieldSignupText);
 
         email = view.findViewById(R.id.emailFieldSignupText);
+        birthdayContainer = view.findViewById(R.id.birthdayFieldSignup);
         email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -116,8 +119,8 @@ public class SignupFragment extends Fragment {
         });
 
 
-        calendarIcon.setOnClickListener(
-                v -> picker.show(getActivity().getSupportFragmentManager(), "tag"));
+        calendarIcon.setOnClickListener(v -> picker.show(getActivity().getSupportFragmentManager(), "tag"));
+        birthdayTxt.setOnClickListener(v -> picker.show(getActivity().getSupportFragmentManager(), "tag"));
         return view;
     }
 
