@@ -18,6 +18,6 @@ public class QuestsGetRequest extends JsonArrayRequest {
     }
 
     public QuestsGetRequest(Context context, RecyclerView cards) {
-        this(Method.GET, RequestUtil.BASE_URL + "api/quests", null, new QuestResponseListener<JSONArray>(cards, context), new ErrorResponseListener());
+        this(Method.GET, RequestUtil.BASE_URL + "api/quests", null, new QuestResponseListener(cards, context), new ErrorResponseListener());
     }
 }

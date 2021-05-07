@@ -38,12 +38,6 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextInputEditText usernameIn;
     private TextInputEditText passwordIn;
 
-
-
-
-    private Button btn;
-    private TextView birthdayTxt;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,5 +81,9 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void toggleSignin(View view) {
         switchFragment(loginFragment);
+    }
+
+    public void signUp(View view) {
+
     }
 }

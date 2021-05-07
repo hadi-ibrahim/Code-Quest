@@ -15,7 +15,7 @@ public class User {
     private String fullName;
     @SerializedName("birthday")
     @Expose
-    private Date birthday;
+    private String birthday;
     @SerializedName("email")
     @Expose
     private String email;
@@ -50,11 +50,11 @@ public class User {
         this.fullName = fullName;
     }
 
-    public Date getBirthday() {
+    public String getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 

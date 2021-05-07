@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONArray;
 
-public class QuestResponseListener<JSONArray> implements Response.Listener<JSONArray> {
+public class QuestResponseListener implements Response.Listener<JSONArray> {
 
     private RecyclerView questCards;
     private Context context;

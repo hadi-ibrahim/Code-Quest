@@ -13,12 +13,12 @@ import com.example.codequestapp.ui.registration.WelcomeFragment;
 import com.example.codequestapp.utils.LoginManager;
 import com.google.gson.Gson;
 
-public class LoginResponseListener implements Response.Listener<String> {
+public class RegistrationResponseListener implements Response.Listener<String> {
 
     private final FragmentManager manager;
     private final TextView responseText;
 
-    public LoginResponseListener(FragmentManager manager, TextView responseText) {
+    public RegistrationResponseListener(FragmentManager manager, TextView responseText) {
         this.manager = manager;
         this.responseText = responseText;
     }

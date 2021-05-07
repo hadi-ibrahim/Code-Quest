@@ -19,16 +19,16 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginPostRequest extends StringRequest {
+public class SignupPostRequest extends StringRequest {
 
     private User user;
 
-    public LoginPostRequest(int method, String url, Response.Listener<String> listener, @Nullable Response.ErrorListener errorListener) {
+    public SignupPostRequest(int method, String url, Response.Listener<String> listener, @Nullable Response.ErrorListener errorListener) {
         super(method, url, listener, errorListener);
     }
 
-    public LoginPostRequest(User user, Context context, TextView responseText, FragmentManager manager) {
-        this(Method.POST, RequestUtil.BASE_URL + "api/user/login", new RegistrationResponseListener(manager, responseText), new LoginErrorResponseListener(responseText));
+    public SignupPostRequest(User user, Context context, TextView responseText, FragmentManager manager) {
+        this(Method.POST, RequestUtil.BASE_URL + "api/user/register", new RegistrationResponseListener(manager, responseText), new LoginErrorResponseListener(responseText));
         this.user = user;
     }
 
@@ -37,6 +37,9 @@ public class LoginPostRequest extends StringRequest {
         Map<String, String> params = new HashMap<String, String>();
         params.put("username", user.getUsername());
         params.put("password", user.getPassword());
+        params.put("fullName", user.getFullName());
+        params.put("birthday", user.getBirthday());
+        params.put("email", user.getEmail());
         return params;
     }
 

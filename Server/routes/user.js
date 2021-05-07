@@ -30,6 +30,36 @@ router.get('/', verify, async (req, res) => {
     }
 })
 
+router.get("/emailExist",  async (req, res) => {
+
+    try {
+        mail = req.query.email;
+
+        await User.findAll({where : {email : mail}})
+            .then((usrs) => {
+                res.send(usrs)
+            })
+    } catch (err) {
+        res.status(400).send(err);
+        console.log(err);
+    }
+})
+
+router.get("/usernameExist",  async (req, res) => {
+
+    try {
+        usrname = req.query.username;
+
+        await User.findAll({where : {username : usrname}})
+            .then((usrs) => {
+                res.send(usrs)
+            })
+    } catch (err) {
+        res.status(400).send(err);
+        console.log(err);
+    }
+})
+
 router.get('/completed', verify, async (req, res) => {
     token = req.header('auth-token');
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
@@ -67,7 +97,9 @@ router.post('/register', async (req, res) => {
             fs.copyFile('./src/temp/default.png', './src/images/Users/' + saved.id + ".png", (err) => {
                 if (err) throw err;
             });
-            res.send(saved);
+            const token = jwt.sign({ id: saved.id }, process.env.TOKEN_SECRET)
+            res.header('auth-token', token).send(token);
+
         })
 
     } catch (err) {

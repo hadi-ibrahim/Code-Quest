@@ -55,17 +55,19 @@ public class LoginFragment extends Fragment {
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                User user = new User();
-                user.setUsername(username.getText().toString());
-                user.setPassword(password.getText().toString());
-                System.out.println(username.getText().toString());
-                RequestQueue queue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
-                LoginPostRequest request = new LoginPostRequest(user, getContext(), responseText, getActivity().getSupportFragmentManager());
-                queue.add(request);
-//                switchFragment(welcomeFragment);
+                signIn();
             }
         });
 
         return view;
+    }
+    private void signIn() {
+        User user = new User();
+        user.setUsername(username.getText().toString());
+        user.setPassword(password.getText().toString());
+        System.out.println(username.getText().toString());
+        RequestQueue queue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
+        LoginPostRequest request = new LoginPostRequest(user, getContext(), responseText, getActivity().getSupportFragmentManager());
+        queue.add(request);
     }
 }
