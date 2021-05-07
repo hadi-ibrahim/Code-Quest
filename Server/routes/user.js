@@ -99,7 +99,7 @@ router.post('/login', async (req, res) => {
             })
         }
         else {
-            res.status(400).send("Invalid username or email.")
+            res.status(401).send("Access denied: invalid credentials")
         }
     }
     catch (err) {

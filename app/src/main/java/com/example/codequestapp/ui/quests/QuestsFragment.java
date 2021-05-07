@@ -52,9 +52,8 @@ public class QuestsFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_quests, container, false);
         RecyclerView questCards = root.findViewById(R.id.questCards);
         RequestQueue queue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
-        String url = RequestUtil.BASE_URL + "api/quests";
 
-        QuestsGetRequest jsonRequest = new QuestsGetRequest(url, getContext(), questCards);
+        QuestsGetRequest jsonRequest = new QuestsGetRequest(getContext(), questCards);
         queue.add(jsonRequest);
         return root;
     }

@@ -15,17 +15,31 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
 import com.example.codequestapp.MainActivity;
 import com.example.codequestapp.R;
+import com.example.codequestapp.models.User;
+import com.example.codequestapp.requests.LoginPostRequest;
+import com.example.codequestapp.requests.RequestQueueSingleton;
+import com.example.codequestapp.utils.LoginManager;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import org.w3c.dom.Text;
 
 public class RegistrationActivity extends AppCompatActivity {
 
     private LoginFragment loginFragment = new LoginFragment();
     private SignupFragment signupFragment = new SignupFragment();
     private WelcomeFragment welcomeFragment = new WelcomeFragment();
+
+    private TextInputEditText usernameIn;
+    private TextInputEditText passwordIn;
+
+
+
 
     private Button btn;
     private TextView birthdayTxt;
@@ -47,14 +61,13 @@ public class RegistrationActivity extends AppCompatActivity {
         switchFragment(signupFragment);
     }
 
-    public void signIn(View view) {
-        switchFragment(welcomeFragment);
-    }
+
 
     public void goToMainPage(View view) {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {

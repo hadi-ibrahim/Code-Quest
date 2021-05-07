@@ -220,6 +220,7 @@ router.get("/:questId", verify, async (req,res) => {
 
 function areAnswersCorrect(ansPuzzles, puzzles, ansQuestions, questions) {
     ans = true
+    // todo : wrongPuzzlesArray
     ansPuzzles.forEach((ansPuz) => {
         const puz = puzzles.find(element => element.id == ansPuz.id)
         if (!puz)
@@ -246,9 +247,12 @@ function areAnswersCorrect(ansPuzzles, puzzles, ansQuestions, questions) {
         correctOptions.slice().sort().forEach( (value, index) =>{
         if (value !== array2Sorted[index])
             ans = false;
+            // add ans to wrongPuz
         });
         
     })
+    // todo : wrongQuestionsArray
+
     ansQuestions.forEach((ansQuestion) => {
         const ques = questions.find(question => question.id == ansQuestion.id);
         if (!ques) 
@@ -256,6 +260,7 @@ function areAnswersCorrect(ansPuzzles, puzzles, ansQuestions, questions) {
 
         if(ques.solution !== ansQuestion.solution)
             ans = false
+            // add and to wrongQuestion
     })
     return ans;
 }

@@ -55,7 +55,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/usernameFieldText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:maxLines="1"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -67,6 +68,7 @@
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
         android:hint="Password"
+
         app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,18 +79,19 @@
             android:id="@+id/passwordFieldText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword" />
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:maxLines="1"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/signUpBtn"
+        android:id="@+id/signInBtn"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="fill_parent"
         android:layout_height="65dp"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="20dp"
-        android:onClick="signIn"
         android:text="Sign in"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,7 +104,7 @@
         android:layout_marginHorizontal="40dp"
         android:layout_marginTop="20dp"
         android:background="?android:attr/listDivider"
-        app:layout_constraintTop_toBottomOf="@+id/signUpBtn"
+        app:layout_constraintTop_toBottomOf="@+id/signInBtn"
         tools:layout_editor_absoluteX="0dp" />
 
     <TextView
@@ -125,6 +128,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/alreadyAccountTxt" />
+
+    <TextView
+        android:id="@+id/responseText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#D32F2F"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/signInBtn" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

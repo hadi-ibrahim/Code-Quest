@@ -1,6 +1,7 @@
 package com.example.codequestapp;
 
 import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +11,8 @@ import android.view.View;
 import com.example.codequestapp.ui.achievements.AchievementsFragment;
 import com.example.codequestapp.ui.profile.ProfileFragment;
 import com.example.codequestapp.ui.quests.QuestsFragment;
+import com.example.codequestapp.ui.registration.RegistrationActivity;
+import com.example.codequestapp.utils.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        requireLogin();
+
         navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -63,15 +68,26 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requireLogin();
+    }
+
+    private void requireLogin() {
+        if (!LoginManager.getInstance().isLoggedIn()) {
+            Intent intent = new Intent(this, RegistrationActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
 
-        switch(navView.getSelectedItemId()) {
+        switch (navView.getSelectedItemId()) {
             case R.id.navigation_quests:
                 inflater.inflate(R.menu.top_bar_quests, menu);
                 break;
@@ -92,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toggleColorMode(MenuItem item) {
-        if(AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES)
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }

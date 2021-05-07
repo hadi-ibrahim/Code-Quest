@@ -17,7 +17,7 @@ public class QuestsGetRequest extends JsonArrayRequest {
         super(method, url, jsonRequest, listener, errorListener);
     }
 
-    public QuestsGetRequest(String url, Context context, RecyclerView cards) {
-        this(Method.GET, url, null, new QuestResponseListener<JSONArray>(cards, context), new ErrorResponseListener());
+    public QuestsGetRequest(Context context, RecyclerView cards) {
+        this(Method.GET, RequestUtil.BASE_URL + "api/quests", null, new QuestResponseListener<JSONArray>(cards, context), new ErrorResponseListener());
     }
 }
