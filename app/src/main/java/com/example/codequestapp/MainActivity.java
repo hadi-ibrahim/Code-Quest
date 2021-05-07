@@ -1,7 +1,9 @@
 package com.example.codequestapp;
 
 import android.app.ActionBar;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,8 +16,10 @@ import com.example.codequestapp.ui.quests.QuestsFragment;
 import com.example.codequestapp.ui.registration.RegistrationActivity;
 import com.example.codequestapp.utils.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
@@ -113,8 +117,28 @@ public class MainActivity extends AppCompatActivity {
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
     }
 
-    public void logout(MenuItem item) {
+    public void logout() {
         LoginManager.getInstance().logout();
         requireLogin();
+    }
+
+    public void toggleLogout(MenuItem item) {
+
+        AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                .setTitle("Sign-out prompt")
+                .setMessage("Are you sure you want to logout?")
+                .setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        logout();
+                    }
+                })
+                .show();
     }
 }
