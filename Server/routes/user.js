@@ -89,7 +89,7 @@ router.post('/register', async (req, res) => {
             username: req.body.username,
             email: req.body.email,
             password: hashed,
-            fullname: req.body.fullName,
+            fullName: req.body.fullName,
             birthday: req.body.birthday
         }).then((saved) => {
             saved.imgPath = "http://" + process.env.SERVER_IP + "/src/images/Users/" + saved.id + ".png";
