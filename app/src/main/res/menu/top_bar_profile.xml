@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/customize"
+        android:icon="@drawable/ic_customize"
+        android:title="Customize Profile"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/logoutBtn"
+        android:onClick="logout"
+        android:icon="@drawable/ic_logout"
+        android:title="Logout"
+        app:showAsAction="ifRoom"/>
+
     <item
         android:id="@+id/night"
         android:icon="@drawable/ic_dark_mode"
         android:title="Dark mode"
         android:onClick="toggleColorMode"
-        app:showAsAction="ifRoom" />
-    <item
-        android:id="@+id/customize"
-        android:icon="@drawable/ic_customize"
-        android:title="Customize Profile"
         app:showAsAction="ifRoom" />
 
 </menu>
