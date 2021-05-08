@@ -123,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toggleLogout(MenuItem item) {
-
         AlertDialog dialog = new MaterialAlertDialogBuilder(this)
                 .setTitle("Sign-out prompt")
                 .setMessage("Are you sure you want to logout?")
