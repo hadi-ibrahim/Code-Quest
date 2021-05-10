@@ -3,6 +3,8 @@ package com.example.codequestapp.responses;
 import android.app.DownloadManager;
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,22 +15,24 @@ import com.google.gson.Gson;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class QuestResponseListener implements Response.Listener<JSONArray> {
 
-    private RecyclerView questCards;
-    private Context context;
+    private MutableLiveData<ArrayList<Quest>> questsData;
 
-    public QuestResponseListener(RecyclerView cards, Context context) {
-        this.questCards = cards;
-        this.context = context;
+    public QuestResponseListener() {
+        this.questsData = new MutableLiveData<ArrayList<Quest>>();
     }
 
     @Override
     public void onResponse(JSONArray response) {
         Quest[] quests = new Gson().fromJson(response.toString(), Quest[].class);
-        QuestCardAdapter adapter = new QuestCardAdapter(quests, context);
-        questCards.setAdapter(adapter);
-        questCards.setLayoutManager(new LinearLayoutManager(context));
+        questsData.postValue(new ArrayList<Quest>(Arrays.asList(quests)));
+    }
 
+    public LiveData<ArrayList<Quest>> getLiveData() {
+        return questsData;
     }
 }

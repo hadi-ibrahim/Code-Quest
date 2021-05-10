@@ -124,14 +124,26 @@ router.post('/login', async (req, res) => {
             bcrypt.compare(pass, loggedIn.password, function (err, result) {
                 if (result == true) {
                     const token = jwt.sign({ id: loggedIn.id }, process.env.TOKEN_SECRET)
-                    res.header('auth-token', token).send(token);
+                    res.header('auth-token', token).send( {
+                        "success": true,
+                        "message": token,
+                        "statusCode": 200
+                    });
                 }
                 else
-                    res.status(401).send("Access denied: invalid credentials")
+                    res.send( {
+                        "success": false,
+                        "message": "Invalid username or password",
+                        "statusCode": 200
+                    });
             })
         }
         else {
-            res.status(401).send("Access denied: invalid credentials")
+            res.send( {
+                "success": false,
+                "message": "Invalid username or password",
+                "statusCode": 200
+            });        
         }
     }
     catch (err) {

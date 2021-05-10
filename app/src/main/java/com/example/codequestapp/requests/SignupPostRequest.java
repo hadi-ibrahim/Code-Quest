@@ -28,7 +28,7 @@ public class SignupPostRequest extends StringRequest {
     }
 
     public SignupPostRequest(User user, Context context, TextView responseText, FragmentManager manager) {
-        this(Method.POST, RequestUtil.BASE_URL + "api/user/register", new RegistrationResponseListener(manager, responseText), new LoginErrorResponseListener(responseText));
+        this(Method.POST, RequestUtil.BASE_URL + "api/user/register", new RegistrationResponseListener(), new LoginErrorResponseListener());
         this.user = user;
     }
 
@@ -59,14 +59,8 @@ public class SignupPostRequest extends StringRequest {
 
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
-        String responseString = "";
-        ResponseMessage res = new ResponseMessage();
-        if (response != null) {
-            responseString = String.valueOf(response.statusCode);
-            res = new ResponseMessage(responseString, new String(response.data));
-        }
         Gson gson = new Gson();
-        return Response.success(gson.toJson(res), HttpHeaderParser.parseCacheHeaders(response));
+        return Response.success(gson.toJson(response.data), HttpHeaderParser.parseCacheHeaders(response));
     }
 
 }

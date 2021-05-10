@@ -70,7 +70,7 @@ public class SignupFragment extends Fragment {
 //                SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
             birthdayTxt.setText(picker.getHeaderText());
         });
-        queue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
+        queue = RequestQueueSingleton.getInstance().getRequestQueue();
     }
 
     @Override

@@ -8,15 +8,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.example.codequestapp.utils.AppContext;
 
 public class RequestQueueSingleton {
     private static RequestQueueSingleton instance;
     private RequestQueue requestQueue;
     private ImageLoader imageLoader;
-    private static Context ctx;
 
-    private RequestQueueSingleton(Context context) {
-        ctx = context;
+    private RequestQueueSingleton() {
         requestQueue = getRequestQueue();
 
         imageLoader = new ImageLoader(requestQueue,
@@ -36,9 +35,9 @@ public class RequestQueueSingleton {
                 });
     }
 
-    public static synchronized RequestQueueSingleton getInstance(Context context) {
+    public static synchronized RequestQueueSingleton getInstance() {
         if (instance == null) {
-            instance = new RequestQueueSingleton(context);
+            instance = new RequestQueueSingleton();
         }
         return instance;
     }
@@ -47,7 +46,7 @@ public class RequestQueueSingleton {
         if (requestQueue == null) {
             // getApplicationContext() is key, it keeps you from leaking the
             // Activity or BroadcastReceiver if someone passes one in.
-            requestQueue = Volley.newRequestQueue(ctx.getApplicationContext());
+            requestQueue = Volley.newRequestQueue(AppContext.getContext());
         }
         return requestQueue;
     }

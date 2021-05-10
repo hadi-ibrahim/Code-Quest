@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -22,14 +23,25 @@ import java.util.Map;
 public class LoginPostRequest extends StringRequest {
 
     private User user;
+    private LiveData<ResponseMessage> data;
+    private RegistrationResponseListener listener;
+
+    public LiveData<ResponseMessage> getData() {
+        return data;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public LoginPostRequest(int method, String url, Response.Listener<String> listener, @Nullable Response.ErrorListener errorListener) {
         super(method, url, listener, errorListener);
+        this.listener = (RegistrationResponseListener) listener;
+        this.data = this.listener.getData();
     }
 
-    public LoginPostRequest(User user, Context context, TextView responseText, FragmentManager manager) {
-        this(Method.POST, RequestUtil.BASE_URL + "api/user/login", new RegistrationResponseListener(manager, responseText), new LoginErrorResponseListener(responseText));
-        this.user = user;
+    public LoginPostRequest() {
+        this(Method.POST, RequestUtil.BASE_URL + "api/user/login", new RegistrationResponseListener(), new LoginErrorResponseListener());
     }
 
     @Override
@@ -56,14 +68,8 @@ public class LoginPostRequest extends StringRequest {
 
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
-        String responseString = "";
-        ResponseMessage res = new ResponseMessage();
-        if (response != null) {
-            responseString = String.valueOf(response.statusCode);
-            res = new ResponseMessage(responseString, new String(response.data));
-        }
         Gson gson = new Gson();
-        return Response.success(gson.toJson(res), HttpHeaderParser.parseCacheHeaders(response));
+        return Response.success(new String(response.data), HttpHeaderParser.parseCacheHeaders(response));
     }
 
 }

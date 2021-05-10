@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,20 +17,27 @@ import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.example.codequestapp.R;
+import com.example.codequestapp.models.Quest;
 import com.example.codequestapp.models.User;
 import com.example.codequestapp.requests.LoginPostRequest;
 import com.example.codequestapp.requests.RequestQueueSingleton;
+import com.example.codequestapp.ui.quests.QuestCardAdapter;
+import com.example.codequestapp.utils.AppContext;
+import com.example.codequestapp.utils.LoginManager;
+import com.example.codequestapp.viewmodels.LoginViewModel;
+import com.example.codequestapp.viewmodels.QuestViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginFragment extends Fragment {
 
-
+    private LoginViewModel viewModel;
     private TextInputEditText password;
     private TextInputEditText username;
 
     private TextView responseText;
 
     private Button signIn;
+
     public LoginFragment() {
         // Required empty public constructor
     }
@@ -39,6 +49,24 @@ public class LoginFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        viewModel.init();
+        viewModel.getData().observe(this, message -> {
+            if (message != null) {
+                if (message.isSuccess()) {
+                    if (message.getStatusCode().equals("200")) {
+                        LoginManager.getInstance().login(message.getMessage());
+                        System.out.println(message.getMessage());
+
+                        responseText.setText("");
+                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.pageFragment, new WelcomeFragment());
+                        transaction.commit();
+                    }
+                } else responseText.setText(message.getMessage());
+            }
+        });
+
     }
 
     @Override
@@ -52,22 +80,15 @@ public class LoginFragment extends Fragment {
         responseText = view.findViewById(R.id.responseText);
 
         signIn = view.findViewById(R.id.signInBtn);
-        signIn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signIn();
-            }
-        });
+        signIn.setOnClickListener(v -> signIn());
 
         return view;
     }
+
     private void signIn() {
         User user = new User();
         user.setUsername(username.getText().toString());
         user.setPassword(password.getText().toString());
-        System.out.println(username.getText().toString());
-        RequestQueue queue = RequestQueueSingleton.getInstance(getContext()).getRequestQueue();
-        LoginPostRequest request = new LoginPostRequest(user, getContext(), responseText, getActivity().getSupportFragmentManager());
-        queue.add(request);
+        viewModel.login(user);
     }
 }
