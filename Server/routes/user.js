@@ -98,13 +98,20 @@ router.post('/register', async (req, res) => {
                 if (err) throw err;
             });
             const token = jwt.sign({ id: saved.id }, process.env.TOKEN_SECRET)
-            res.header('auth-token', token).send(token);
-
+            res.send( {
+                "success": true,
+                "message": token,
+                "statusCode": "200"
+            });
         })
 
     } catch (err) {
         console.log(err);
-        res.status(400).send(err);
+        res.send( {
+            "success": false,
+            "message": "Check Username or Email",
+            "statusCode": "200"
+        });
     }
 })
 

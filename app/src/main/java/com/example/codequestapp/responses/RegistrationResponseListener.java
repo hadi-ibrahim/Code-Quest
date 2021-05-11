@@ -30,7 +30,6 @@ public class RegistrationResponseListener implements Response.Listener<String> {
     public void onResponse(String response) {
         Gson gson = new Gson();
         ResponseMessage message = gson.fromJson(response, ResponseMessage.class);
-        System.out.println(message.getMessage());
         data.postValue(message);
     }
 }

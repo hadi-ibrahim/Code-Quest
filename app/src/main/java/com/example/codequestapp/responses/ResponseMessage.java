@@ -1,9 +1,19 @@
 package com.example.codequestapp.responses;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class ResponseMessage {
 
+    @SerializedName("statusCode")
+    @Expose
     private String statusCode;
+
+    @SerializedName("message")
+    @Expose
     private String message;
+    @SerializedName("success")
+    @Expose
     private boolean success;
 
     public boolean isSuccess() {

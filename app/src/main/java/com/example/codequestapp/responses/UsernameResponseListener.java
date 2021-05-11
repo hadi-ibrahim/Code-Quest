@@ -3,6 +3,8 @@ package com.example.codequestapp.responses;
 import android.app.DownloadManager;
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,21 +17,24 @@ import org.json.JSONArray;
 
 public class UsernameResponseListener implements Response.Listener<JSONArray> {
 
-    private final TextInputLayout username;
+    private MutableLiveData<ResponseMessage> data;
 
-    public UsernameResponseListener(TextInputLayout username) {
-        this.username = username;
+    public UsernameResponseListener() {
+        data = new MutableLiveData<ResponseMessage>();
+    }
+
+    public LiveData<ResponseMessage> getData() {
+        return data;
     }
 
     @Override
     public void onResponse(JSONArray response) {
         User[] users = new Gson().fromJson(response.toString(), User[].class);
-        System.out.println("-----------------------------");
+        ResponseMessage message;
         if (users.length>0) {
-            username.setErrorEnabled(true);
-            username.setError("Username already exists.");
+            message = new ResponseMessage("200", "Username already exists.", false);
         }
-        else username.setErrorEnabled(false);
-
+        else message = new ResponseMessage("200", "", true);
+        data.postValue(message);
     }
 }

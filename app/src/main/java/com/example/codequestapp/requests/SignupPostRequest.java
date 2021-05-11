@@ -5,6 +5,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.LiveData;
 
 import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
@@ -22,14 +23,25 @@ import java.util.Map;
 public class SignupPostRequest extends StringRequest {
 
     private User user;
+    private LiveData<ResponseMessage> data;
+    private RegistrationResponseListener listener;
 
     public SignupPostRequest(int method, String url, Response.Listener<String> listener, @Nullable Response.ErrorListener errorListener) {
         super(method, url, listener, errorListener);
+        this.listener = (RegistrationResponseListener) listener;
+        this.data = this.listener.getData();
     }
 
-    public SignupPostRequest(User user, Context context, TextView responseText, FragmentManager manager) {
+    public SignupPostRequest() {
         this(Method.POST, RequestUtil.BASE_URL + "api/user/register", new RegistrationResponseListener(), new LoginErrorResponseListener());
+    }
+
+    public void setUser(User user) {
         this.user = user;
+    }
+
+    public LiveData<ResponseMessage> getData () {
+        return this.data;
     }
 
     @Override
@@ -60,8 +72,9 @@ public class SignupPostRequest extends StringRequest {
     @Override
     protected Response<String> parseNetworkResponse(NetworkResponse response) {
         Gson gson = new Gson();
-        return Response.success(gson.toJson(response.data), HttpHeaderParser.parseCacheHeaders(response));
+        return Response.success(new String(response.data), HttpHeaderParser.parseCacheHeaders(response));
     }
+
 
 }
 

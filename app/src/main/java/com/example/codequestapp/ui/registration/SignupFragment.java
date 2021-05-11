@@ -3,6 +3,8 @@ package com.example.codequestapp.ui.registration;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.text.TextUtils;
 import android.util.Patterns;
@@ -13,15 +15,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.example.codequestapp.R;
 import com.example.codequestapp.models.User;
 import com.example.codequestapp.requests.EmailExistGetRequest;
-import com.example.codequestapp.requests.LoginPostRequest;
-import com.example.codequestapp.requests.RequestQueueSingleton;
-import com.example.codequestapp.requests.SignupPostRequest;
 import com.example.codequestapp.requests.UsernameExistGetRequest;
+import com.example.codequestapp.utils.LoginManager;
+import com.example.codequestapp.viewmodels.EmailExistViewModel;
+import com.example.codequestapp.viewmodels.SignupViewModel;
+import com.example.codequestapp.viewmodels.UsernameExistViewModel;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -30,6 +32,12 @@ import java.util.regex.Pattern;
 
 
 public class SignupFragment extends Fragment {
+
+    private SignupViewModel signupViewModel;
+    private EmailExistViewModel emailViewModel;
+    private UsernameExistViewModel usernameViewModel;
+
+
     private TextInputLayout emailContainer;
     private TextInputEditText email;
     private TextInputEditText username;
@@ -70,7 +78,51 @@ public class SignupFragment extends Fragment {
 //                SimpleDateFormat formatter = new SimpleDateFormat("MMM dd, yyyy");
             birthdayTxt.setText(picker.getHeaderText());
         });
-        queue = RequestQueueSingleton.getInstance().getRequestQueue();
+        signupViewModel = new ViewModelProvider(this).get(SignupViewModel.class);
+        signupViewModel.init();
+        signupViewModel.getData().observe(this, message -> {
+            if (message != null) {
+                if (message.isSuccess()) {
+                    if (message.getStatusCode().equals("200")) {
+                        LoginManager.getInstance().login(message.getMessage());
+                        System.out.println(message.getMessage());
+
+                        responseText.setText("");
+                        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.pageFragment, new WelcomeFragment());
+                        transaction.commit();
+                    }
+                } else responseText.setText(message.getMessage());
+            }
+        });
+        emailViewModel = new ViewModelProvider(this).get(EmailExistViewModel.class);
+        emailViewModel.init();
+        emailViewModel.getData().observe(this, message -> {
+            if (message != null) {
+                if (!message.isSuccess()) {
+                    if (message.getStatusCode().equals("200")) {
+                        emailContainer.setErrorEnabled(true);
+                        emailContainer.setError("Username already exists.");
+                    }
+                } else emailContainer.setErrorEnabled(false);
+
+            } else responseText.setText(message.getMessage());
+        });
+
+        usernameViewModel = new ViewModelProvider(this).get(UsernameExistViewModel.class);
+        usernameViewModel.init();
+        usernameViewModel.getData().observe(this, message -> {
+            if (message != null) {
+                if (!message.isSuccess()) {
+                    if (message.getStatusCode().equals("200")) {
+                        usernameContainer.setErrorEnabled(true);
+                        usernameContainer.setError("Username already exists.");
+                    }
+                } else usernameContainer.setErrorEnabled(false);
+
+            } else responseText.setText(message.getMessage());
+        });
+
     }
 
     @Override
@@ -174,16 +226,6 @@ public class SignupFragment extends Fragment {
         return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches() && !emailContainer.isErrorEnabled());
     }
 
-    private void checkIfEmailAlreadyExists() {
-        EmailExistGetRequest request = new EmailExistGetRequest(email.getText().toString(), emailContainer);
-        queue.add(request);
-    }
-
-    private void checkIfUsernameExists() {
-        UsernameExistGetRequest request = new UsernameExistGetRequest(username.getText().toString(), usernameContainer);
-        queue.add(request);
-    }
-
     public static boolean isStrongPassword(CharSequence target) {
         Pattern pattern = Pattern.compile("^.{8,}$");
         return (!TextUtils.isEmpty(target) && pattern.matcher(target).matches());
@@ -209,16 +251,25 @@ public class SignupFragment extends Fragment {
     }
 
     private void signUp() {
-        User user = new User();
+        signupViewModel.signUp(getUserFromFields());
+    }
 
+    private void checkIfEmailAlreadyExists() {
+        emailViewModel.validateEmail(email.getText().toString());
+    }
+
+    private void checkIfUsernameExists() {
+        usernameViewModel.validateUsername(username.getText().toString());
+    }
+
+    private User getUserFromFields() {
+        User user = new User();
         user.setUsername(username.getText().toString());
         user.setBirthday(birthdayTxt.getText().toString());
         user.setPassword(password.getText().toString());
         user.setEmail(email.getText().toString());
         user.setFullName(name.getText().toString());
-
-        SignupPostRequest request = new SignupPostRequest(user, getContext(), responseText, getActivity().getSupportFragmentManager());
-        queue.add(request);
+        return user;
     }
 
 }

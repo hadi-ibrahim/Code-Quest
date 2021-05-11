@@ -3,6 +3,8 @@ package com.example.codequestapp.responses;
 import android.app.DownloadManager;
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,20 +19,25 @@ import org.json.JSONArray;
 
 public class EmailResponseListener implements Response.Listener<JSONArray> {
 
-    private final TextInputLayout email;
+    private MutableLiveData<ResponseMessage> data;
 
-    public EmailResponseListener(TextInputLayout email) {
-        this.email = email;
+    public EmailResponseListener() {
+        data = new MutableLiveData<ResponseMessage>();
     }
 
     @Override
     public void onResponse(JSONArray response) {
         User[] users = new Gson().fromJson(response.toString(), User[].class);
+        ResponseMessage message;
         if (users.length>0) {
-            email.setErrorEnabled(true);
-            email.setError("Email already exists.");
+            message = new ResponseMessage("200", "Email already exists.", false);
         }
-        else email.setErrorEnabled(false);
+        else message = new ResponseMessage("200", "", true);
+        data.postValue(message);
 
+    }
+
+    public LiveData<ResponseMessage> getData() {
+        return data;
     }
 }
