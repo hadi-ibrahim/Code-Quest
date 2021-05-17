@@ -56,7 +56,7 @@
         app:layout_constraintTop_toBottomOf="@+id/usernameProfileField">
 
         <ImageView
-            android:id="@+id/calendarIcon"
+            android:id="@+id/calendarIconProfile"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_gravity="center"
@@ -102,6 +102,17 @@
             android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/updateProfileBtn"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="Update Profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/emailFieldProfile" />
 
     <ImageView
         android:id="@+id/profilePic"

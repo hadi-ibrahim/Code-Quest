@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,9 +16,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.codequestapp.R;
+import com.example.codequestapp.models.User;
 import com.example.codequestapp.viewmodels.ProfileViewModel;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.squareup.picasso.Picasso;
@@ -45,6 +48,9 @@ public class ProfileFragment extends Fragment {
     protected View mView;
 
     private ImageView profileImg;
+    private ImageView calendarIcon;
+
+    private Button btn;
 
 
     @Override
@@ -79,6 +85,13 @@ public class ProfileFragment extends Fragment {
                 Picasso.with(getContext()).load(user.getImgPath()).into(profileImg);
             }
         });
+        profileViewModel.getUpdateMessage().observe(this, responseMessage -> {
+            if (responseMessage != null) {
+                if (responseMessage.isSuccess())
+                    Snackbar.make(mView, responseMessage.getMessage(), Snackbar.LENGTH_SHORT).show();
+            }
+        });
+
 
     }
 
@@ -86,23 +99,39 @@ public class ProfileFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        calendarIcon = view.findViewById(R.id.calendarIconProfile);
         birthdayContainer = view.findViewById(R.id.birthdayFieldProfile);
-        birthdayTxt =  view.findViewById(R.id.birthdayFieldProfileText);
+        birthdayTxt = view.findViewById(R.id.birthdayFieldProfileText);
 
         emailContainer = view.findViewById(R.id.emailFieldProfile);
-        emailTxt =  view.findViewById(R.id.emailFieldProfileText);
+        emailTxt = view.findViewById(R.id.emailFieldProfileText);
 
         fullNameContainer = view.findViewById(R.id.nameFieldProfile);
-        fullNameTxt =  view.findViewById(R.id.nameFieldProfileText);
+        fullNameTxt = view.findViewById(R.id.nameFieldProfileText);
 
         usernameContainer = view.findViewById(R.id.usernameProfileField);
-        usernameTxt =  view.findViewById(R.id.usernameFieldProfileText);
+        usernameTxt = view.findViewById(R.id.usernameFieldProfileText);
 
         profileImg = view.findViewById(R.id.profilePic);
         mView = view;
 
+        usernameTxt.setEnabled(false);
+
+        btn = (Button) view.findViewById(R.id.updateProfileBtn);
+        btn.setOnClickListener(v -> updateProfile());
         profileViewModel.getProfileInfo();
+        calendarIcon.setOnClickListener(v -> picker.show(getActivity().getSupportFragmentManager(), "tag"));
+        birthdayTxt.setOnClickListener(v -> picker.show(getActivity().getSupportFragmentManager(), "tag"));
 
         return view;
+    }
+
+    private void updateProfile() {
+        User user = new User();
+        user.setBirthday(birthdayTxt.getText().toString());
+        user.setEmail(emailTxt.getText().toString());
+        user.setFullName(fullNameTxt.getText().toString());
+
+        profileViewModel.updateProfileInfo(user);
     }
 }

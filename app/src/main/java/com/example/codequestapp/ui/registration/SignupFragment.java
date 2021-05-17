@@ -144,7 +144,7 @@ public class SignupFragment extends Fragment {
         responseText = view.findViewById(R.id.responseTextSignup);
         signupBtn = view.findViewById(R.id.signUpBtn);
         birthdayTxt = view.findViewById(R.id.birthdayFieldProfileText);
-        calendarIcon = view.findViewById(R.id.calendarIcon);
+        calendarIcon = view.findViewById(R.id.calendarIconProfile);
 
         passwordContainer = view.findViewById(R.id.passwordFieldSignup);
         password = view.findViewById(R.id.passwordFieldSignupText);

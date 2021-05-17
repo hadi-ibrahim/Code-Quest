@@ -27,7 +27,7 @@ router.get('/', verify, async (req, res) => {
 
         await User.findAll({
             attributes: ['username', 'fullName', 'birthday', 'email', 'imgPath'],
-            where: {id: id}
+            where: { id: id }
         })
             .then((users) => res.send(users));
     } catch (err) {
@@ -35,12 +35,12 @@ router.get('/', verify, async (req, res) => {
     }
 })
 
-router.get("/emailExist",  async (req, res) => {
+router.get("/emailExist", async (req, res) => {
 
     try {
         mail = req.query.email;
 
-        await User.findAll({where : {email : mail}})
+        await User.findAll({ where: { email: mail } })
             .then((usrs) => {
                 res.send(usrs)
             })
@@ -50,12 +50,12 @@ router.get("/emailExist",  async (req, res) => {
     }
 })
 
-router.get("/usernameExist",  async (req, res) => {
+router.get("/usernameExist", async (req, res) => {
 
     try {
         usrname = req.query.username;
 
-        await User.findAll({where : {username : usrname}})
+        await User.findAll({ where: { username: usrname } })
             .then((usrs) => {
                 res.send(usrs)
             })
@@ -103,7 +103,7 @@ router.post('/register', async (req, res) => {
                 if (err) throw err;
             });
             const token = jwt.sign({ id: saved.id }, process.env.TOKEN_SECRET)
-            res.send( {
+            res.send({
                 "success": true,
                 "message": token,
                 "statusCode": "200"
@@ -112,7 +112,7 @@ router.post('/register', async (req, res) => {
 
     } catch (err) {
         console.log(err);
-        res.send( {
+        res.send({
             "success": false,
             "message": "Check Username or Email",
             "statusCode": "200"
@@ -136,14 +136,14 @@ router.post('/login', async (req, res) => {
             bcrypt.compare(pass, loggedIn.password, function (err, result) {
                 if (result == true) {
                     const token = jwt.sign({ id: loggedIn.id }, process.env.TOKEN_SECRET)
-                    res.header('auth-token', token).send( {
+                    res.header('auth-token', token).send({
                         "success": true,
                         "message": token,
                         "statusCode": 200
                     });
                 }
                 else
-                    res.send( {
+                    res.send({
                         "success": false,
                         "message": "Invalid username or password",
                         "statusCode": 200
@@ -151,11 +151,11 @@ router.post('/login', async (req, res) => {
             })
         }
         else {
-            res.send( {
+            res.send({
                 "success": false,
                 "message": "Invalid username or password",
                 "statusCode": 200
-            });        
+            });
         }
     }
     catch (err) {
@@ -268,27 +268,28 @@ router.put(
     }
 );
 
-router.put("/updateProfile", verify, async (req, res) => {
+router.put("/", verify, async (req, res) => {
 
     try {
         token = req.header('auth-token');
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
         const id = decoded.id;
 
-        username = req.body.username;
         email = req.body.email;
         fullName = req.body.fullName;
-
-        password = await bcrypt.hash(req.body.password, saltRounds);
+        birthday = req.body.birthday;
 
         await User.findByPk(id)
             .then((usr) => {
                 usr.email = email;
-                usr.password = password;
-                usr.username = username;
                 usr.fullName = fullName
+                usr.birthday = birthday
                 usr.save();
-                res.send("User updated successully!")
+                res.send({
+                    "success": true,
+                    "message": "Profile Updated Successfully",
+                    "statusCode": 200
+                });
             })
     } catch (err) {
         res.status(400).send(err);
