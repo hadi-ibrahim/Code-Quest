@@ -18,16 +18,17 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.example.codequestapp.R;
 import com.example.codequestapp.models.User;
-import com.example.codequestapp.requests.EmailExistGetRequest;
-import com.example.codequestapp.requests.UsernameExistGetRequest;
 import com.example.codequestapp.utils.LoginManager;
 import com.example.codequestapp.viewmodels.EmailExistViewModel;
 import com.example.codequestapp.viewmodels.SignupViewModel;
 import com.example.codequestapp.viewmodels.UsernameExistViewModel;
+import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Calendar;
+import java.util.TimeZone;
 import java.util.regex.Pattern;
 
 
@@ -70,8 +71,18 @@ public class SignupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.set(Calendar.YEAR, 1900);
+        long today = MaterialDatePicker.todayInUtcMilliseconds();
+        long startYear = calendar.getTimeInMillis();
+        CalendarConstraints constraints = new CalendarConstraints.Builder()
+                        .setStart(startYear)
+                        .setEnd(today)
+                        .build();
         picker = MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select date")
+                .setCalendarConstraints(constraints)
                 .build();
 
         picker.addOnPositiveButtonClickListener(selection -> {
@@ -132,23 +143,23 @@ public class SignupFragment extends Fragment {
         required = view.findViewById(R.id.requiredTxtSignup);
         responseText = view.findViewById(R.id.responseTextSignup);
         signupBtn = view.findViewById(R.id.signUpBtn);
-        birthdayTxt = view.findViewById(R.id.birthdayFieldText);
+        birthdayTxt = view.findViewById(R.id.birthdayFieldProfileText);
         calendarIcon = view.findViewById(R.id.calendarIcon);
 
         passwordContainer = view.findViewById(R.id.passwordFieldSignup);
         password = view.findViewById(R.id.passwordFieldSignupText);
 
-        name = view.findViewById(R.id.nameFieldSignupText);
-        nameContainer = view.findViewById(R.id.nameFieldSignup);
+        name = view.findViewById(R.id.nameFieldProfileText);
+        nameContainer = view.findViewById(R.id.nameFieldProfile);
 
         verifyPasswordContainer = view.findViewById(R.id.verifyPasswordFieldSignup);
         verifyPassword = view.findViewById(R.id.verifyPasswordFieldSignupText);
 
-        username = view.findViewById(R.id.usernameFieldSignupText);
-        usernameContainer = view.findViewById(R.id.usernameFieldSignup);
+        username = view.findViewById(R.id.usernameFieldProfileText);
+        usernameContainer = view.findViewById(R.id.usernameProfileField);
 
-        email = view.findViewById(R.id.emailFieldSignupText);
-        emailContainer = view.findViewById(R.id.emailFieldSignup);
+        email = view.findViewById(R.id.emailFieldProfileText);
+        emailContainer = view.findViewById(R.id.emailFieldProfile);
 
         signupBtn = view.findViewById(R.id.signUpBtn);
 

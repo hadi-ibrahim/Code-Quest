@@ -25,7 +25,7 @@ public class EmailExistGetRequest extends JsonArrayRequest {
 
     private LiveData<ResponseMessage> data;
     private EmailResponseListener listener;
-    private Map<String, String> params;
+    private final Map<String, String> params;
 
     public EmailExistGetRequest(int method, String url, @Nullable JSONArray jsonRequest, Response.Listener<JSONArray> listener, @Nullable Response.ErrorListener errorListener) {
         super(method, url, jsonRequest, listener, errorListener);

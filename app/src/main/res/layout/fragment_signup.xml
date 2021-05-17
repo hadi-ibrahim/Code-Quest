@@ -39,7 +39,7 @@
             app:layout_constraintTop_toBottomOf="@+id/signUpTxt" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameFieldSignup"
+        android:id="@+id/nameFieldProfile"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -51,14 +51,14 @@
         app:layout_constraintTop_toBottomOf="@+id/signupPrompt">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameFieldSignupText"
+            android:id="@+id/nameFieldProfileText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/usernameFieldSignup"
+        android:id="@+id/usernameProfileField"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -67,10 +67,10 @@
         android:hint="Username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameFieldSignup">
+        app:layout_constraintTop_toBottomOf="@+id/nameFieldProfile">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/usernameFieldSignupText"
+            android:id="@+id/usernameFieldProfileText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -85,7 +85,7 @@
             android:orientation="horizontal"
 
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/usernameFieldSignup">
+            app:layout_constraintTop_toBottomOf="@+id/usernameProfileField">
 
             <ImageView
                 android:id="@+id/calendarIcon"
@@ -96,7 +96,7 @@
                 android:src="@drawable/ic_calendar" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/birthdayFieldSignup"
+                android:id="@+id/birthdayFieldProfile"
                 style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -106,7 +106,7 @@
                 app:endIconDrawable="@drawable/ic_baseline_add_24">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/birthdayFieldText"
+                    android:id="@+id/birthdayFieldProfileText"
                     android:focusable="false"
                     android:clickable="false"
                     android:layout_width="fill_parent"
@@ -116,7 +116,7 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/emailFieldSignup"
+            android:id="@+id/emailFieldProfile"
             style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
             app:layout_constraintTop_toBottomOf="@+id/birthdayLayout">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/emailFieldSignupText"
+                android:id="@+id/emailFieldProfileText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress" />
@@ -147,7 +147,7 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailFieldSignup">
+            app:layout_constraintTop_toBottomOf="@+id/emailFieldProfile">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordFieldSignupText"
@@ -231,7 +231,7 @@
         android:layout_marginStart="20dp"
         android:text="* All fields are required"
         android:textSize="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/nameFieldSignup"
+        app:layout_constraintBottom_toTopOf="@+id/nameFieldProfile"
         app:layout_constraintStart_toStartOf="parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

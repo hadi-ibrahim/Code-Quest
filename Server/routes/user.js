@@ -21,8 +21,13 @@ console.log();
 
 router.get('/', verify, async (req, res) => {
     try {
+        token = req.header('auth-token');
+        const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+        const id = decoded.id;
+
         await User.findAll({
-            attributes: ['username', 'fullName', 'birthday', 'email', 'imgPath']
+            attributes: ['username', 'fullName', 'birthday', 'email', 'imgPath'],
+            where: {id: id}
         })
             .then((users) => res.send(users));
     } catch (err) {

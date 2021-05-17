@@ -17,6 +17,7 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
 
     private Quest[] localDataSet;
     private Context context;
+
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
@@ -30,7 +31,7 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
             super(view);
 
             title = view.findViewById(R.id.questTitle);
-            categoryBanner =view.findViewById(R.id.categoryBanner);
+            categoryBanner = view.findViewById(R.id.categoryBanner);
             trophyImage = view.findViewById(R.id.trophyImage);
         }
 
@@ -40,7 +41,7 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
      * Initialize the dataset of the Adapter.
      *
      * @param dataSet String[] containing the data to populate views to be used
-     * by RecyclerView.
+     *                by RecyclerView.
      */
     public QuestCardAdapter(Quest[] dataSet, Context context) {
         localDataSet = dataSet;
@@ -66,7 +67,7 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
         viewHolder.title.setText(localDataSet[position].getTitle());
         int color = Color.parseColor(localDataSet[position].getCategory().getColor());
         viewHolder.categoryBanner.setBackgroundColor(color);
-        switch(localDataSet[position].getTrophy()) {
+        switch (localDataSet[position].getTrophy()) {
             case "bronze":
                 viewHolder.trophyImage.setImageDrawable(context.getDrawable(R.drawable.bronze));
                 break;
