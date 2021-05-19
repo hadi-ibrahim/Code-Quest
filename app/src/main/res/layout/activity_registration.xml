@@ -14,7 +14,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></androidx.fragment.app.FragmentContainerView>
+            app:layout_constraintTop_toTopOf="parent"/>
 
     </ScrollView>
 

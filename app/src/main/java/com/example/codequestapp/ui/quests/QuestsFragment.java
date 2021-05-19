@@ -43,12 +43,9 @@ public class QuestsFragment extends Fragment {
 
     private QuestViewModel viewModel;
     private RecyclerView questCards;
+
     public QuestsFragment() {
 
-    }
-
-    public static QuestsFragment newInstance() {
-        return new QuestsFragment();
     }
 
     @Override
