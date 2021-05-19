@@ -1,8 +1,15 @@
 package com.example.codequestapp.models;
+
+
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Quest {
+import java.io.Serializable;
+
+public class Quest implements Parcelable {
 
     @SerializedName("id")
     @Expose
@@ -104,4 +111,62 @@ public class Quest {
         this.category = category;
     }
 
+
+    protected Quest(Parcel in) {
+        id = in.readByte() == 0x00 ? null : in.readInt();
+        title = in.readString();
+        experience = in.readByte() == 0x00 ? null : in.readInt();
+        imgPath = in.readString();
+        trophy = in.readString();
+        createdAt = in.readString();
+        updatedAt = in.readString();
+        categoryId = in.readByte() == 0x00 ? null : in.readInt();
+        category = (Category) in.readValue(Category.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        if (id == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(id);
+        }
+        dest.writeString(title);
+        if (experience == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(experience);
+        }
+        dest.writeString(imgPath);
+        dest.writeString(trophy);
+        dest.writeString(createdAt);
+        dest.writeString(updatedAt);
+        if (categoryId == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeInt(categoryId);
+        }
+        dest.writeValue(category);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Quest> CREATOR = new Parcelable.Creator<Quest>() {
+        @Override
+        public Quest createFromParcel(Parcel in) {
+            return new Quest(in);
+        }
+
+        @Override
+        public Quest[] newArray(int size) {
+            return new Quest[size];
+        }
+    };
 }

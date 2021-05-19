@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/night"
+        android:icon="@drawable/ic_dark_mode"
+        android:onClick="toggleColorMode"
+        android:title="Dark mode"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/backBtn"
+        android:icon="@drawable/ic_baseline_arrow_back_24"
+        android:onClick="backToQuests"
+        android:title="Go Back"
+        app:showAsAction="ifRoom"/>
+
+</menu>

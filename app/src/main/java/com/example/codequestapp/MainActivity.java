@@ -41,10 +41,9 @@ import androidx.navigation.ui.NavigationUI;
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView navView;
-    private QuestsFragment questsFragment = new QuestsFragment();
-    private ProfileFragment profileFragment = new ProfileFragment();
-    private AchievementsFragment achievementsFragment = new AchievementsFragment();
-    private Integer REQUEST_CAMERA = 22, SELECT_FILE = 0, READ_FILE = 34;
+    private final QuestsFragment questsFragment = new QuestsFragment();
+    private final ProfileFragment profileFragment = new ProfileFragment();
+    private final AchievementsFragment achievementsFragment = new AchievementsFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,5 +153,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public void backToQuests(MenuItem item) {
+        replaceFragment(questsFragment);
     }
 }

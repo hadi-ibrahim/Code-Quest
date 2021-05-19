@@ -1,22 +1,27 @@
 package com.example.codequestapp.ui.quests;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codequestapp.R;
+import com.example.codequestapp.SolveQuestActivity;
 import com.example.codequestapp.models.Quest;
+import com.example.codequestapp.utils.AppContext;
 
 public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.ViewHolder> {
 
     private Quest[] localDataSet;
     private Context context;
+    private RecyclerView cards;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -43,9 +48,10 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
      * @param dataSet String[] containing the data to populate views to be used
      *                by RecyclerView.
      */
-    public QuestCardAdapter(Quest[] dataSet, Context context) {
-        localDataSet = dataSet;
+    public QuestCardAdapter(Quest[] dataSet, Context context, RecyclerView cards) {
+        this.localDataSet = dataSet;
         this.context = context;
+        this.cards = cards;
     }
 
     // Create new views (invoked by the layout manager)
@@ -54,6 +60,13 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.quest_row_item, viewGroup, false);
+        view.setOnClickListener(v -> {
+            int itemPosition = cards.getChildLayoutPosition(view);
+            Quest item = localDataSet[itemPosition];
+            Intent intent = new Intent(context, SolveQuestActivity.class);
+            intent.putExtra("quest", item);
+            context.startActivity(intent);
+        });
 
         return new ViewHolder(view);
     }
