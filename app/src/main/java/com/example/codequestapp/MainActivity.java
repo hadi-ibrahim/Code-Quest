@@ -1,19 +1,28 @@
 package com.example.codequestapp;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.codequestapp.ui.achievements.AchievementsFragment;
 import com.example.codequestapp.ui.profile.ProfileFragment;
 import com.example.codequestapp.ui.quests.QuestsFragment;
 import com.example.codequestapp.ui.registration.RegistrationActivity;
+import com.example.codequestapp.utils.AppContext;
 import com.example.codequestapp.utils.LoginManager;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -35,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private QuestsFragment questsFragment = new QuestsFragment();
     private ProfileFragment profileFragment = new ProfileFragment();
     private AchievementsFragment achievementsFragment = new AchievementsFragment();
+    private Integer REQUEST_CAMERA = 22, SELECT_FILE = 0, READ_FILE = 34;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,5 +149,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 })
                 .show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

@@ -17,6 +17,7 @@ public class UpdateProfileResponseListener implements Response.Listener<String> 
 
     @Override
     public void onResponse(String response) {
+        System.out.println(response);
         Gson gson = new Gson();
         ResponseMessage message = gson.fromJson(response, ResponseMessage.class);
         data.postValue(message);

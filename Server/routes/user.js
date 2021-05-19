@@ -198,12 +198,7 @@ const upload = multer({
     dest: "./src/temp"
 });
 
-const handleError = (err, res) => {
-    res
-        .status(500)
-        .contentType("text/plain")
-        .end("Oops! Something went wrong!");
-};
+
 
 router.put(
     "/changeProfilePicture",
@@ -215,11 +210,14 @@ router.put(
             const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
             const id = decoded.id;
 
+            // console.log(req);
             const tempPath = req.file.path;
             const type = req.file.mimetype.split("/").pop();
-            let targetPath;
+            let targetPath ;
 
-            if (type == "png")
+            console.log("type issssss =========")
+            console.log(type);
+            if (type == "png" || type == "PNG")
                 targetPath = path.join(__dirname, "../src/images/Users/" + id + ".png");
             else if (type == "jpeg")
                 targetPath = path.join(__dirname, "../src/images/Users/" + id + ".jpeg");
@@ -228,24 +226,32 @@ router.put(
             else {
                 fs.unlink(tempPath, err => {
                     if (err) return handleError(err, res);
+                    targetPath = path.join(__dirname, "../src/images/Users/" + id + ".png");
 
-                    res
-                        .status(403)
-                        .contentType("text/plain")
-                        .send("Only .png, .jpg, .jpeg files are allowed!");
+                    // res
+                    //     .status(403)
+                    //     .contentType("text/plain")
+                    //     .send("Only .png, .jpg, .jpeg files are allowed!");
                 });
             }
-
             fs.rename(tempPath, targetPath, err => {
-                if (err) return handleError(err, res);
+                // if (err) {
+                //      res.send({
+                //         "success": false,
+                //         "message": "Error loading image - invalid type",
+                //         "statusCode": 200
+                //      });
+                //      success = false;
+                // }
 
             });
 
             await User.findByPk(id)
                 .then(usr => {
                     const pathWithExtension = usr.imgPath.split(".");
-                    let success = true;
                     console.log(pathWithExtension[pathWithExtension.length - 1])
+                    success = true;
+                    
                     if (pathWithExtension[pathWithExtension.length - 1] != type) {
                         fs.unlink("./src/images/Users/" + id + "." + pathWithExtension[pathWithExtension.length - 1], err => {
                             if (err)
@@ -257,18 +263,30 @@ router.put(
                         usr.save();
                     }
                     if (success)
-                        res.send("File uploaded!");
-                    else return handleError("Error occured", res);
+                        res.send({
+                            "success": true,
+                            "message": "Profile Picture Updated Successfully",
+                            "statusCode": 200
+                        });
+                    else 
+                        res.send({
+                        "success": false,
+                        "message": "Error occured",
+                        "statusCode": 200
+                    });;
                 })
 
         } catch (err) {
-            res.status(400).send(err);
-            console.log(err)
+            res.send({
+                "success": false,
+                "message": "Error occured",
+                "statusCode": 200
+            })
         }
     }
 );
 
-router.put("/", verify, async (req, res) => {
+router.put("/user", verify, async (req, res) => {
 
     try {
         token = req.header('auth-token');
