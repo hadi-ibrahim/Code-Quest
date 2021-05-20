@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,13 +20,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.codequestapp.models.Puzzle;
+import com.example.codequestapp.models.PuzzleOption;
 import com.example.codequestapp.models.Quest;
+import com.example.codequestapp.models.Question;
 import com.example.codequestapp.ui.achievements.AchievementsFragment;
 import com.example.codequestapp.ui.profile.ProfileFragment;
+import com.example.codequestapp.ui.quests.QuestCardAdapter;
 import com.example.codequestapp.ui.quests.QuestsFragment;
 import com.example.codequestapp.ui.registration.RegistrationActivity;
 import com.example.codequestapp.utils.AppContext;
 import com.example.codequestapp.utils.LoginManager;
+import com.example.codequestapp.viewmodels.QuestViewModel;
+import com.example.codequestapp.viewmodels.SpecificQuestViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
@@ -35,14 +42,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 public class SolveQuestActivity extends AppCompatActivity {
 
     private Quest quest;
+    private SpecificQuestViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +63,19 @@ public class SolveQuestActivity extends AppCompatActivity {
 
         this.quest = (Quest) getIntent().getParcelableExtra("quest");
         getSupportActionBar().setTitle(quest.getTitle());
+
+        viewModel = new ViewModelProvider(this).get(SpecificQuestViewModel.class);
+        viewModel.init();
+        viewModel.getData().observe(this, response -> {
+            for(Puzzle puzzle : response.getPuzzles()) {
+                System.out.println(puzzle.getPrompt());
+                for(PuzzleOption ops : puzzle.getOptions()) {
+                    System.out.println(ops.getOption());
+                }
+            }
+
+        });
+        viewModel.getPuzzlesAndQuestions(quest.getId());
 
     }
 

@@ -1,16 +1,18 @@
 package com.example.codequestapp.models;
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.codequestapp.models.Category;
+import com.example.codequestapp.models.Puzzle;
+import com.example.codequestapp.models.Question;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Quest implements Parcelable {
-
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -38,6 +40,12 @@ public class Quest implements Parcelable {
     @SerializedName("Category")
     @Expose
     private Category category;
+    @SerializedName("questions")
+    @Expose
+    private List<Question> questions;
+    @SerializedName("puzzles")
+    @Expose
+    private List<Puzzle> puzzles;
 
     public Integer getId() {
         return id;
@@ -111,6 +119,21 @@ public class Quest implements Parcelable {
         this.category = category;
     }
 
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public List<Puzzle> getPuzzles() {
+        return puzzles;
+    }
+
+    public void setPuzzles(List<Puzzle> puzzles) {
+        this.puzzles = puzzles;
+    }
 
     protected Quest(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
@@ -122,6 +145,18 @@ public class Quest implements Parcelable {
         updatedAt = in.readString();
         categoryId = in.readByte() == 0x00 ? null : in.readInt();
         category = (Category) in.readValue(Category.class.getClassLoader());
+        if (in.readByte() == 0x01) {
+            questions = new ArrayList<Question>();
+            in.readList(questions, Question.class.getClassLoader());
+        } else {
+            questions = null;
+        }
+        if (in.readByte() == 0x01) {
+            puzzles = new ArrayList<Puzzle>();
+            in.readList(puzzles, Puzzle.class.getClassLoader());
+        } else {
+            puzzles = null;
+        }
     }
 
     @Override
@@ -155,6 +190,18 @@ public class Quest implements Parcelable {
             dest.writeInt(categoryId);
         }
         dest.writeValue(category);
+        if (questions == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(questions);
+        }
+        if (puzzles == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(puzzles);
+        }
     }
 
     @SuppressWarnings("unused")

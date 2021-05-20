@@ -63,7 +63,7 @@ router.post("/solve/:questId", verify, (req,res) => {
                             allPuzzles.push ({
                                 prompt:puzzle.prompt,
                                 id:puzzle.id,
-                                Options: options
+                                options: options
                             })
 
 
@@ -84,6 +84,60 @@ router.post("/solve/:questId", verify, (req,res) => {
         });
 
 
+    } catch (err) {
+        res.status(400).send(err);
+        console.log(err);
+    }
+})
+router.get("/questionsAndPuzzles/:questId", verify, (req,res) => {
+    try {
+        id = req.params.questId;
+
+        Quests.findByPk(id,{attributes: {exclude:['createdAt', 'updatedAt', 'CategoryId']}})
+        .then((quest) => {
+            allQuestions = [];
+            allPuzzles = [];
+
+                Questions.findAll({
+                where: {
+                    QuestId : quest.id
+                },
+                attributes : {exclude: ["createdAt", "updatedAt","QuestId", "solution"]}
+            })
+            .then((questions) => {
+                questions.forEach(question => allQuestions.push(question));
+
+            });
+                Puzzles.findAll({
+                where:{
+                    QuestId: quest.id
+                },
+                attributes: {exclude: ["createdAt", "updatedAt","QuestId"]}
+            })
+            .then((puzzles)=> {
+                puzzles.forEach( puzzle => {
+                    if(puzzle.length!=0){
+                            PuzzleOptions.findAll({
+                            where: {
+                                PuzzleId: puzzle.id
+                            },
+                            attributes: {exclude: ["createdAt", "updatedAt","PuzzleId"]}
+                        })
+                        .then((options) => {
+                            allPuzzles.push ({
+                                prompt:puzzle.prompt,
+                                id:puzzle.id,
+                                options: options
+                            })
+                            res.send({
+                            'questions': allQuestions,
+                            'puzzles':allPuzzles});
+
+                        })
+                    }
+                });
+            })
+        }); 
     } catch (err) {
         res.status(400).send(err);
         console.log(err);
@@ -128,11 +182,11 @@ router.get("/answers", verify, (req,res) => {
                                 allPuzzles.push ({
                                     prompt:puzzle.prompt,
                                     id:puzzle.id,
-                                    Options: options
+                                    options: options
                                 })
                                 allQuests.push({'Quest': quest,
-                                'Questions': allQuestions,
-                                'Puzzles':allPuzzles})
+                                'questions': allQuestions,
+                                'puzzles':allPuzzles})
                                 res.send(allQuests);
 
                             })
@@ -189,11 +243,11 @@ router.get("/answers/:questId", verify, (req,res) => {
                             allPuzzles.push ({
                                 prompt:puzzle.prompt,
                                 id:puzzle.id,
-                                Options: options
+                                options: options
                             })
                             res.send({'Quest': quest,
-                            'Questions': allQuestions,
-                            'Puzzles':allPuzzles});
+                            'questions': allQuestions,
+                            'puzzles':allPuzzles});
 
                         })
                     }

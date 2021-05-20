@@ -8,10 +8,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.codequestapp.models.CategoryProgress;
-import com.example.codequestapp.models.Quest;
 import com.example.codequestapp.responses.ErrorResponseListener;
 import com.example.codequestapp.responses.ProgressResponseListener;
-import com.example.codequestapp.responses.QuestResponseListener;
 import com.example.codequestapp.utils.TokenEncryptedSharedPreferences;
 
 import org.json.JSONArray;

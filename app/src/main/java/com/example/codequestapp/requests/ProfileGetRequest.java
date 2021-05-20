@@ -1,21 +1,14 @@
 package com.example.codequestapp.requests;
 
-import android.content.Context;
-
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.codequestapp.models.User;
-import com.example.codequestapp.responses.EmailResponseListener;
 import com.example.codequestapp.responses.ErrorResponseListener;
 import com.example.codequestapp.responses.ProfileResponseListener;
-import com.example.codequestapp.responses.QuestResponseListener;
-import com.example.codequestapp.responses.ResponseMessage;
 import com.example.codequestapp.utils.TokenEncryptedSharedPreferences;
 
 import org.json.JSONArray;
