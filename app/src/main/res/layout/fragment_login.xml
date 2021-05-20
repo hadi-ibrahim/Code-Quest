@@ -41,7 +41,7 @@
         app:srcCompat="@drawable/signup_signin" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/usernameField"
+        android:id="@+id/questionField"
         style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -53,7 +53,7 @@
         app:layout_constraintTop_toBottomOf="@+id/signUpImage">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/usernameFieldText"
+            android:id="@+id/questionAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"/>
@@ -73,7 +73,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@+id/usernameField">
+        app:layout_constraintTop_toBottomOf="@+id/questionField">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/passwordFieldText"

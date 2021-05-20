@@ -1,13 +1,10 @@
 package com.example.codequestapp.ui.registration;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,17 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.example.codequestapp.R;
-import com.example.codequestapp.models.Quest;
 import com.example.codequestapp.models.User;
-import com.example.codequestapp.requests.LoginPostRequest;
-import com.example.codequestapp.requests.RequestQueueSingleton;
-import com.example.codequestapp.ui.quests.QuestCardAdapter;
-import com.example.codequestapp.utils.AppContext;
 import com.example.codequestapp.utils.LoginManager;
 import com.example.codequestapp.viewmodels.LoginViewModel;
-import com.example.codequestapp.viewmodels.QuestViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class LoginFragment extends Fragment {
@@ -74,7 +64,7 @@ public class LoginFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        username = view.findViewById(R.id.usernameFieldText);
+        username = view.findViewById(R.id.questionAnswer);
         password = view.findViewById(R.id.passwordFieldText);
 
         responseText = view.findViewById(R.id.responseText);

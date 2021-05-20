@@ -71,7 +71,6 @@ public class ProfilePicPutRequest extends Request<String> {
                     fileExtension.toLowerCase());
         }
         ContentType type;
-        System.out.println(mimeType + "--------------------------");
         entityBuilder.addPart(FILE_PART_NAME, new FileBody(file,ContentType.getByMimeType(mimeType)));
         entity = entityBuilder.build();
     }

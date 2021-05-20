@@ -14,6 +14,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -114,6 +116,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
         profileViewModel.getUpdateMessage().observe(this, responseMessage -> {
             if (responseMessage != null) {
                 if (responseMessage.isSuccess())
@@ -176,6 +179,8 @@ public class ProfileFragment extends Fragment {
             builder.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel", (dialog, which) -> dialog.dismiss());
             builder.show();
         });
+
+
         return view;
     }
 
@@ -204,7 +209,6 @@ public class ProfileFragment extends Fragment {
         if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
             Bitmap selectedImage = (Bitmap) data.getExtras().get("data");
             profileImg.setImageBitmap(selectedImage);
-            System.out.println("-------------- saving");
             CapturePhoto.insertImage(selectedImage, "Profile Image", "Code Quest profile image");
             image = createFileFromBitmap(selectedImage);
             profileViewModel.updateProfilePic(image);
@@ -265,7 +269,7 @@ public class ProfileFragment extends Fragment {
             fOut.flush(); // Not really required
             fOut.close(); // do not forget to close the stream
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+
         }
 
         return file;

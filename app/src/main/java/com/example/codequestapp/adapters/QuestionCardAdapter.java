@@ -1,4 +1,4 @@
-package com.example.codequestapp.ui.quests;
+package com.example.codequestapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,31 +15,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.codequestapp.R;
 import com.example.codequestapp.SolveQuestActivity;
 import com.example.codequestapp.models.Quest;
+import com.example.codequestapp.models.Question;
 import com.example.codequestapp.utils.AppContext;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Map;
 
-public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.ViewHolder> {
+public class QuestionCardAdapter extends RecyclerView.Adapter<QuestionCardAdapter.ViewHolder> {
 
-    private Quest[] localDataSet;
+    private Question[] localDataSet;
     private Context context;
-    private RecyclerView cards;
 
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public final TextView title;
-        public final TextView categoryBanner;
-        public final ImageView trophyImage;
+
+        public final TextView prompt;
+        public final TextInputLayout questionField;
+        public final TextInputEditText questionAnswer;
+
 
         public ViewHolder(View view) {
             super(view);
-
-            title = view.findViewById(R.id.questTitle);
-            categoryBanner = view.findViewById(R.id.categoryBanner);
-            trophyImage = view.findViewById(R.id.trophyImage);
+            prompt  = view.findViewById(R.id.questionPrompt);
+            questionField = view.findViewById(R.id.questionField);
+            questionAnswer = view.findViewById(R.id.questionAnswer);
         }
 
     }
@@ -50,10 +53,9 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
      * @param dataSet String[] containing the data to populate views to be used
      *                by RecyclerView.
      */
-    public QuestCardAdapter(Quest[] dataSet, Context context, RecyclerView cards) {
+    public QuestionCardAdapter(Question[] dataSet, Context context) {
         this.localDataSet = dataSet;
         this.context = context;
-        this.cards = cards;
     }
 
     // Create new views (invoked by the layout manager)
@@ -61,14 +63,9 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.quest_row_item, viewGroup, false);
-        view.setOnClickListener(v -> {
-            int itemPosition = cards.getChildLayoutPosition(view);
-            Quest item = localDataSet[itemPosition];
-            Intent intent = new Intent(context, SolveQuestActivity.class);
-            intent.putExtra("quest", item);
-            context.startActivity(intent);
-        });
+                .inflate(R.layout.question_card_item, viewGroup, false);
+
+//        questionAnswer.setListener to change the thing
 
         return new ViewHolder(view);
     }
@@ -79,20 +76,9 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.title.setText(localDataSet[position].getTitle());
-        int color = Color.parseColor(localDataSet[position].getCategory().getColor());
-        viewHolder.categoryBanner.setBackgroundColor(color);
-        switch (localDataSet[position].getTrophy()) {
-            case "bronze":
-                viewHolder.trophyImage.setImageDrawable(context.getDrawable(R.drawable.bronze));
-                break;
-            case "silver":
-                viewHolder.trophyImage.setImageDrawable(context.getDrawable(R.drawable.silver));
-                break;
-            case "gold":
-                viewHolder.trophyImage.setImageDrawable(context.getDrawable(R.drawable.gold));
-                break;
-        }
+        viewHolder.prompt.setText(localDataSet[position].getPrompt());
+        viewHolder.questionAnswer.setHint(localDataSet[position].getHint());
+
     }
 
     // Return the size of your dataset (invoked by the layout manager)

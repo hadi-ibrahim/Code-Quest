@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.codequestapp.adapters.PuzzleCardAdapter;
 import com.example.codequestapp.models.Puzzle;
 import com.example.codequestapp.models.PuzzleOption;
 import com.example.codequestapp.models.Quest;
@@ -27,6 +28,7 @@ import com.example.codequestapp.models.Question;
 import com.example.codequestapp.ui.achievements.AchievementsFragment;
 import com.example.codequestapp.ui.profile.ProfileFragment;
 import com.example.codequestapp.ui.quests.QuestCardAdapter;
+import com.example.codequestapp.adapters.QuestionCardAdapter;
 import com.example.codequestapp.ui.quests.QuestsFragment;
 import com.example.codequestapp.ui.registration.RegistrationActivity;
 import com.example.codequestapp.utils.AppContext;
@@ -48,17 +50,25 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SolveQuestActivity extends AppCompatActivity {
 
     private Quest quest;
     private SpecificQuestViewModel viewModel;
+    private RecyclerView questionsView;
+    private RecyclerView puzzlesView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solve);
         requireLogin();
+
+        questionsView = findViewById(R.id.questionsView);
+        puzzlesView = findViewById(R.id.puzzlesView);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         this.quest = (Quest) getIntent().getParcelableExtra("quest");
@@ -67,12 +77,13 @@ public class SolveQuestActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(SpecificQuestViewModel.class);
         viewModel.init();
         viewModel.getData().observe(this, response -> {
-            for(Puzzle puzzle : response.getPuzzles()) {
-                System.out.println(puzzle.getPrompt());
-                for(PuzzleOption ops : puzzle.getOptions()) {
-                    System.out.println(ops.getOption());
-                }
-            }
+            QuestionCardAdapter adapter = new QuestionCardAdapter( response.getQuestions().toArray(new Question[0]), this);
+            questionsView.setAdapter(adapter);
+            questionsView.setLayoutManager(new LinearLayoutManager(this));
+
+            PuzzleCardAdapter puzzleAdapter = new PuzzleCardAdapter( response.getPuzzles().toArray(new Puzzle[0]), this);
+            puzzlesView.setAdapter(puzzleAdapter);
+            puzzlesView.setLayoutManager(new LinearLayoutManager(this));
 
         });
         viewModel.getPuzzlesAndQuestions(quest.getId());

@@ -35,7 +35,8 @@ public class QuestsFragment extends Fragment {
                 Quest[] quests = response.toArray(new Quest[0]);
                 QuestCardAdapter adapter = new QuestCardAdapter(response.toArray(quests), getContext(), questCards);
                 questCards.setAdapter(adapter);
-                questCards.setLayoutManager(new LinearLayoutManager(getContext()));            }
+                questCards.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
         });
     }
 
