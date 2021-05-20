@@ -1,4 +1,4 @@
-package com.example.codequestapp.ui.quests;
+package com.example.codequestapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,16 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codequestapp.R;
 import com.example.codequestapp.SolveQuestActivity;
 import com.example.codequestapp.models.Quest;
-import com.example.codequestapp.utils.AppContext;
-
-import java.util.Map;
 
 public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.ViewHolder> {
 
@@ -33,6 +29,7 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
         public final TextView title;
         public final TextView categoryBanner;
         public final ImageView trophyImage;
+
 
         public ViewHolder(View view) {
             super(view);
@@ -62,8 +59,9 @@ public class QuestCardAdapter extends RecyclerView.Adapter<QuestCardAdapter.View
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.quest_row_item, viewGroup, false);
+
         view.setOnClickListener(v -> {
-            int itemPosition = cards.getChildLayoutPosition(view);
+            int itemPosition = cards.getChildLayoutPosition(v);
             Quest item = localDataSet[itemPosition];
             Intent intent = new Intent(context, SolveQuestActivity.class);
             intent.putExtra("quest", item);

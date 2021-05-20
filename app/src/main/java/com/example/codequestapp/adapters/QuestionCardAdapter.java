@@ -20,12 +20,16 @@ import com.example.codequestapp.utils.AppContext;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Map;
 
 public class QuestionCardAdapter extends RecyclerView.Adapter<QuestionCardAdapter.ViewHolder> {
 
     private Question[] localDataSet;
     private Context context;
+    private View view;
+    private RecyclerView cards;
 
     /**
      * Provide a reference to the type of views that you are using
@@ -36,7 +40,6 @@ public class QuestionCardAdapter extends RecyclerView.Adapter<QuestionCardAdapte
         public final TextView prompt;
         public final TextInputLayout questionField;
         public final TextInputEditText questionAnswer;
-
 
         public ViewHolder(View view) {
             super(view);
@@ -53,9 +56,10 @@ public class QuestionCardAdapter extends RecyclerView.Adapter<QuestionCardAdapte
      * @param dataSet String[] containing the data to populate views to be used
      *                by RecyclerView.
      */
-    public QuestionCardAdapter(Question[] dataSet, Context context) {
+    public QuestionCardAdapter(Question[] dataSet, Context context, RecyclerView cards) {
         this.localDataSet = dataSet;
         this.context = context;
+        this.cards = cards;
     }
 
     // Create new views (invoked by the layout manager)
@@ -65,9 +69,24 @@ public class QuestionCardAdapter extends RecyclerView.Adapter<QuestionCardAdapte
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.question_card_item, viewGroup, false);
 
+
 //        questionAnswer.setListener to change the thing
 
         return new ViewHolder(view);
+    }
+
+    public ArrayList<Question> generateQuestionAnswers() {
+
+        ArrayList<Question> questions= new ArrayList<Question>();
+
+        for (int childCount = cards.getChildCount(), i = 0; i < childCount; ++i) {
+            final ViewHolder holder = (QuestionCardAdapter.ViewHolder) cards.getChildViewHolder(cards.getChildAt(i));
+            Question question = localDataSet[i];
+            question.setSolution(holder.questionAnswer.getText().toString());
+
+            questions.add(question);
+        }
+        return questions;
     }
 
     // Replace the contents of a view (invoked by the layout manager)

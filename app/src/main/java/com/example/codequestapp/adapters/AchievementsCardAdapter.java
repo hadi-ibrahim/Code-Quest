@@ -1,18 +1,14 @@
-package com.example.codequestapp.ui.achievements;
+package com.example.codequestapp.adapters;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codequestapp.R;
 import com.example.codequestapp.models.CategoryProgress;
-import com.example.codequestapp.models.Quest;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 
 import org.jetbrains.annotations.NotNull;

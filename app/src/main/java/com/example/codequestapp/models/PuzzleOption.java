@@ -41,6 +41,11 @@ public class PuzzleOption implements Parcelable {
         this.isCorrect = isCorrect;
     }
 
+    public PuzzleOption(String option, Boolean isCorrect) {
+        this.option = option;
+        this.isCorrect = isCorrect;
+    }
+
     protected PuzzleOption(Parcel in) {
         id = in.readByte() == 0x00 ? null : in.readInt();
         option = in.readString();

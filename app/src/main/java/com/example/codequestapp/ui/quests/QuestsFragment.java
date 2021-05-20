@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codequestapp.R;
+import com.example.codequestapp.adapters.QuestCardAdapter;
 import com.example.codequestapp.models.Quest;
 import com.example.codequestapp.viewmodels.QuestViewModel;
 
