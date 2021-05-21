@@ -12,12 +12,16 @@ import com.example.codequestapp.models.Quest;
 import com.example.codequestapp.requests.ProgressGetRequest;
 import com.example.codequestapp.requests.QuestGetRequest;
 import com.example.codequestapp.requests.RequestQueueSingleton;
+import com.example.codequestapp.requests.SolveQuestPostRequest;
+import com.example.codequestapp.responses.ResponseMessage;
 
 import java.util.ArrayList;
 
 public class SpecificQuestViewModel extends AndroidViewModel {
     private LiveData<Quest> data;
     private QuestGetRequest request;
+    private LiveData<ResponseMessage> solveResponse;
+    private SolveQuestPostRequest solveRequest;
     private RequestQueue queue = RequestQueueSingleton.getInstance().getRequestQueue();
 
     public SpecificQuestViewModel(@NonNull Application application) {
@@ -26,6 +30,8 @@ public class SpecificQuestViewModel extends AndroidViewModel {
 
     public void init() {
         request = new QuestGetRequest();
+        solveRequest = new SolveQuestPostRequest();
+        solveResponse = solveRequest.getData();
         data = request.getData();
     }
 
@@ -37,5 +43,14 @@ public class SpecificQuestViewModel extends AndroidViewModel {
     {
         request.setId(id);
         queue.add(request);
+    }
+
+    public LiveData<ResponseMessage> getSolveResponse() {
+        return solveResponse;
+    }
+
+    public void solve(Quest quest) {
+        solveRequest.setQuest(quest);
+        queue.add(solveRequest);
     }
 }

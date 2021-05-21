@@ -40,9 +40,9 @@ app.listen(3000, () => console.log("Server up and listening..."))
 
 async function main() {
   try {
-    // await db.sequelize.sync({alter:true, force:true});
-    // await fillData();
-    await db.sequelize.sync();
+    await db.sequelize.sync({alter:true, force:true});
+    await fillData();
+    // await db.sequelize.sync();
   } catch (err) {
     console.log(err);
   }

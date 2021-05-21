@@ -7,6 +7,7 @@ module.exports = (sequelize, dataTypes) => {
         static associate(models){
 
             Puzzle.belongsTo(models.Quest);
+            Puzzle.hasMany(models.PuzzleOption)
             
 
         }

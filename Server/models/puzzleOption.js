@@ -15,6 +15,7 @@ module.exports = (sequelize, dataTypes) => {
         option: {
             type: dataTypes.STRING,
             notNull:true,
+            unique:true
         },
         isCorrect: {
             type: dataTypes.BOOLEAN,

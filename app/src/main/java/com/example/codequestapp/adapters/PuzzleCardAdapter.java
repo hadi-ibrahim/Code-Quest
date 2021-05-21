@@ -101,7 +101,7 @@ public class PuzzleCardAdapter extends RecyclerView.Adapter<PuzzleCardAdapter.Vi
             ArrayList<PuzzleOption> options = new ArrayList<PuzzleOption>();
 
             for( int optionsCount = holder.options.getChildCount(),j = 0 ; j < optionsCount ; j++) {
-                Chip chip = (Chip) (holder.options.getChildAt(i));
+                Chip chip = (Chip) (holder.options.getChildAt(j));
                 boolean isSelected = chip.isChecked();
 
                 String option = chip.getText().toString();
